@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./style";
 import {
-  // Navbar,
+  Navbar,
   Billing,
   CardDeal,
   Business,
@@ -15,11 +15,11 @@ import {
 import bVedio from "./videos/video-2.mp4";
 const MainPage = () => (
   <div className=" w-full overflow-hidden">
-    {/* <div className={`bg-primary ${styles.paddingX} ${styles.flexCenter}`}>
+    <div className={`bg-primary ${styles.paddingX} ${styles.flexCenter}`}>
       <div className={`${styles.boxWidth}`}>
         <Navbar />
       </div>
-    </div> */}
+    </div>
     <div className={` ${styles.flexStart}`}>
       <video
         autoPlay
