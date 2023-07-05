@@ -7,12 +7,12 @@ import { Link } from "react-router-dom";
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
   return (
-    <nav className="w-full flex py-3 justify-between items-center navbar">
+    <nav className="w-full flex  justify-between items-center navbar">
       <Link to="/">
         <img
           src={logo}
           alt="bank"
-          className="nav-logo px-4 py-4 rounded-full cursor-pointer"
+          className="nav-logo px-3 py-3 rounded-full cursor-pointer "
         />
       </Link>
       <ul className="list-none sm:flex hidden justify-end items-center flex-1">
@@ -54,7 +54,7 @@ const Navbar = () => {
             <li
               className={`font-poppins font-normal cursor-pointer text-[16px] text-white px-4 py-3 nav-link`}
             >
-              <a href={`#home`}>SignUp</a>
+              <Link to="/Login">SignUp</Link>
             </li>
           </ul>
         </div>

@@ -14,13 +14,13 @@ import {
 } from "./components";
 import bVedio from "./videos/video-2.mp4";
 const MainPage = () => (
-  <div className=" w-full overflow-hidden">
+  <div className="w-full overflow-hidden">
     <div className={`bg-primary ${styles.paddingX} ${styles.flexCenter}`}>
       <div className={`${styles.boxWidth}`}>
         <Navbar />
       </div>
     </div>
-    <div className={` ${styles.flexStart}`}>
+    <div className={`${styles.flexStart}`}>
       <video
         autoPlay
         loop
@@ -32,13 +32,13 @@ const MainPage = () => (
           top: "50%",
           height: "100%",
           objectFit: "cover",
-          transform: "translate(-50%, -50%)",
+          transform: "translate(-50%, -42%)",
           zIndex: "-1",
         }}
       >
         <source src={bVedio} type="video/mp4" />
       </video>
-      <div className={`${styles.boxWidth}`}>
+      <div className={` ${styles.boxWidth}`}>
         <Hero />
       </div>
     </div>
