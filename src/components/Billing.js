@@ -26,16 +26,16 @@ const Billing = () => (
         production system.
       </p>
 
-      <div className="flex flex-row flex-wrap sm:mt-10 mt-6">
+      <div className="flex flex-row flex-wrap sm:mt-10 mt-4">
         <img
           src={apple}
           alt="apple_play"
-          className="w-[128px] h-[42px] object-contain mr-5 cursor-pointer"
+          className="w-[80px] h-[22px] sm:w-[128px] sm:h-[42px] object-contain mr-8 sm:mr-5 cursor-pointer"
         />
         <img
           src={google}
           alt="google_play"
-          className="w-[128px] h-[42px] object-contain cursor-pointer"
+          className="w-[80px] h-[22px] sm:w-[128px] sm:h-[42px]  object-contain cursor-pointer"
         />
       </div>
     </div>

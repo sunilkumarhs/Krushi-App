@@ -12,7 +12,7 @@ const Navbar = () => {
         <img
           src={logo}
           alt="bank"
-          className="nav-logo px-3 py-3 rounded-full cursor-pointer "
+          className="nav-logo px-2 py-2 rounded-full cursor-pointer w-[55px] h-[55px] sm:w-20 sm:h-20 sm:px-3 sm:py-3"
         />
       </Link>
       <ul className="list-none sm:flex hidden justify-end items-center flex-1">
@@ -25,9 +25,7 @@ const Navbar = () => {
           </li>
         ))}
         <li className="ml-2">
-          {/* <a href={`#home`}> */}
-          <Buttons buttonStyle="btn--outline">SIGN UP</Buttons>
-          {/* </a> */}
+          <Buttons buttonStyle="btn--outline">SIGN IN</Buttons>
         </li>
       </ul>
       <div className="sm:hidden flex flex-1 justify-end items-center">
@@ -40,7 +38,7 @@ const Navbar = () => {
         <div
           className={`${
             toggle ? "flex" : "hidden"
-          } p-6 bg-primary absolute top-20 right-0 mx-4 my-2 min-w-[140px] rounded-xl sidebar `}
+          } p-6 bg-primary absolute top-10 right-0 mx-4 my-2 min-w-[140px] rounded-xl sidebar `}
         >
           <ul className="list-none flex flex-col justify-end items-center flex-1">
             {navLinks.map((nav) => (
@@ -54,7 +52,7 @@ const Navbar = () => {
             <li
               className={`font-poppins font-normal cursor-pointer text-[16px] text-white px-4 py-3 nav-link`}
             >
-              <Link to="/Login">SignUp</Link>
+              <Link to="/Login">SignIn</Link>
             </li>
           </ul>
         </div>

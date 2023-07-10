@@ -10,12 +10,12 @@ const CradDeal = () => (
         Find better trade deal <br className="sm:block hidden" /> in few easy
         steps.
       </h2>
-      <p className={`${styles.paragraph} max-w-[470px] mt-5`}>
+      <p className={`${styles.paragraph} max-w-[470px] mt-2 sm:mt-5`}>
         Sign Up with your full details to market your products on your price
         based on quality.
       </p>
 
-      <Button styles="mt-10" />
+      <Button styles="mt-5 sm:mt-10" />
     </div>
     <div className={layout.sectionImg}>
       <img src={tradeDeal} alt="card" className="w-[100%] h-[100%]" />

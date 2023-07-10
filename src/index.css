@@ -27,12 +27,12 @@
 .text-gradient {
   background: radial-gradient(
     64.18% 64.18% at 71.16% 35.69%,
-    #faf6de 0.89%,
-    #f5e8be 17.23%,
-    #f0dd9d 42.04%,
-    #ebb87d 55.12%,
-    #e6965c 71.54%,
-    #cf7c33 100%
+    #fadede 0.89%,
+    #f5bfbe 17.23%,
+    #f09d9d 42.04%,
+    #eb7d7d 55.12%,
+    #e65c5c 71.54%,
+    #cf3333 100%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -154,6 +154,46 @@
 }
 .client-link:hover {
   background:  rgba(255, 255, 255, 0.6);
+}
+.overlay-block {
+  background: rgba(49,49,49,0.8);
+}
+.button-link {
+  background: -webkit-linear-gradient(left,#00dbde,#fc00ff,#00dbde,#fc00ff);
+}
+.button-link:hover {
+  background:-webkit-linear-gradient(right,#00dbde,#fc00ff,#00dbde,#fc00ff);
+}
+.close-link:hover {
+  background: rgb(244, 41, 41);
+}
+.back-image {
+  background-image: url("./assets/bg1.jpg");
+}
+.back-or {
+  background: #2a9ddf;
+}
+.back-reg {
+  background: linear-gradient(120deg,rgb(139, 231, 41),rgb(43, 173, 216));
+}
+.back-sinup {
+  background: linear-gradient(120deg,rgb(43, 173, 216),rgb(139, 231, 41));
+}
+
+.back-button {
+  background: rgb(225, 57, 57);
+}
+
+.back-button:hover {
+  background: linear-gradient(
+    157.81deg,
+    #def9fa -43.27%,
+    #bef3f5 -21.24%,
+    #9dedf0 12.19%,
+    #7de7eb 29.82%,
+    #5ce1e6 51.94%,
+    #33bbcf 90.29%
+  );
 }
 
 .blue__gradient {
