@@ -5,16 +5,28 @@ import { farmSchema } from "../Schemas";
 import { profileLogo } from "../assets";
 
 const onSubmit = async (values, actions) => {
-  // console.log(values);
-  // console.log(actions);
+  console.log(values);
+  console.log(actions);
   await new Promise((resolve) => setTimeout(resolve, 2000));
   actions.resetForm();
 };
 
-const FarmRegister = () => {
+const UpdateFarm = () => {
   const navigate = useNavigate();
   const imageRef = useRef(null);
   const [pic, setpic] = useState(null);
+
+  const [fName, setFName] = useState(false);
+  const [lName, setLName] = useState(false);
+  const [adrs, setAdrs] = useState(false);
+  const [ctry, setCtry] = useState(false);
+  const [city, setCity] = useState(false);
+  const [region, setRegion] = useState(false);
+  const [dist, setDist] = useState(false);
+  const [pCode, setPCode] = useState(false);
+  const [mNum, setMNum] = useState(false);
+  const [adhNum, setAdhNum] = useState(false);
+  const [fId, setFId] = useState(false);
 
   const {
     values,
@@ -42,6 +54,40 @@ const FarmRegister = () => {
     validationSchema: farmSchema,
     onSubmit,
   });
+
+  const farmerFName = () => {
+    setFName(true);
+  };
+  const farmerLName = () => {
+    setLName(true);
+  };
+  const farmerAdrs = () => {
+    setAdrs(true);
+  };
+  const farmerCtry = () => {
+    setCtry(true);
+  };
+  const farmerCity = () => {
+    setCity(true);
+  };
+  const farmerRegion = () => {
+    setRegion(true);
+  };
+  const farmerDist = () => {
+    setDist(true);
+  };
+  const farmerPCode = () => {
+    setPCode(true);
+  };
+  const farmerAdhr = () => {
+    setAdhNum(true);
+  };
+  const farmerMob = () => {
+    setMNum(true);
+  };
+  const farmerFId = () => {
+    setFId(true);
+  };
 
   const toLogin = () => {
     navigate("/Login");
@@ -181,27 +227,13 @@ const FarmRegister = () => {
             </p>
             <div className="sm:col-span-3">
               <div className="mt-5">
-                <select
+                <input
                   id="agriType"
                   name="agriType"
-                  className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-xl sm:leading-6 ${
-                    errors.agriType ? "input_Error" : ""
-                  } `}
-                  value={values.agriType}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                >
-                  <option value="">Choose the Agriculture Type</option>
-                  <option value="Subsistence Agriculture">
-                    Subsistence Agriculture
-                  </option>
-                  <option value="Industrialized Agriculture">
-                    Industrialized Agriculture
-                  </option>
-                </select>
-                {errors.agriType && touched.agriType && (
-                  <p className="error font-semibold">{errors.agriType}</p>
-                )}
+                  className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-xl sm:leading-6`}
+                  value={"Subsistence"}
+                  disabled
+                />
               </div>
             </div>
 
@@ -214,7 +246,34 @@ const FarmRegister = () => {
                   First name
                 </label>
                 <div className="mt-2">
-                  <input
+                  {fName ? (
+                    <input
+                      type="text"
+                      name="firstName"
+                      id="firstName"
+                      className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl sm:leading-8 ${
+                        errors.firstName ? "input_Error" : ""
+                      }`}
+                      value={values.firstName}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  ) : (
+                    <input
+                      type="text"
+                      name="firstName"
+                      id="firstName"
+                      className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl sm:leading-8 `}
+                      onClick={farmerFName}
+                      value={"Sunil"}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  )}
+                  {errors.firstName && touched.firstName && (
+                    <p className="error font-semibold">{errors.firstName}</p>
+                  )}
+                  {/* <input
                     type="text"
                     name="firstName"
                     id="firstName"
@@ -227,7 +286,7 @@ const FarmRegister = () => {
                   />
                   {errors.firstName && touched.firstName && (
                     <p className="error font-semibold">{errors.firstName}</p>
-                  )}
+                  )} */}
                 </div>
               </div>
 
@@ -239,7 +298,34 @@ const FarmRegister = () => {
                   Last name
                 </label>
                 <div className="mt-2">
-                  <input
+                  {lName ? (
+                    <input
+                      type="text"
+                      name="lastName"
+                      id="lastName"
+                      className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl sm:leading-8 ${
+                        errors.lastName ? "input_Error" : ""
+                      }`}
+                      value={values.lastName}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  ) : (
+                    <input
+                      type="text"
+                      name="lastName"
+                      id="lastName"
+                      className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl sm:leading-8`}
+                      onClick={farmerLName}
+                      value={"Kumar H S"}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  )}
+                  {errors.lastName && touched.lastName && (
+                    <p className="error font-semibold">{errors.lastName}</p>
+                  )}
+                  {/* <input
                     type="text"
                     name="lastName"
                     id="lastName"
@@ -252,7 +338,7 @@ const FarmRegister = () => {
                   />
                   {errors.lastName && touched.lastName && (
                     <p className="error font-semibold">{errors.lastName}</p>
-                  )}
+                  )} */}
                 </div>
               </div>
               <div className="col-span-3">
@@ -263,7 +349,36 @@ const FarmRegister = () => {
                   Street address
                 </label>
                 <div className="mt-2">
-                  <input
+                  {adrs ? (
+                    <input
+                      type="text"
+                      name="streetAddress"
+                      id="streetAddress"
+                      className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl sm:leading-8 ${
+                        errors.streetAddress ? "input_Error" : ""
+                      }`}
+                      value={values.streetAddress}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  ) : (
+                    <input
+                      type="text"
+                      name="streetAddress"
+                      id="streetAddress"
+                      className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl sm:leading-8`}
+                      onClick={farmerAdrs}
+                      value={"Bangalore road"}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  )}
+                  {errors.streetAddress && touched.streetAddress && (
+                    <p className="error font-semibold">
+                      {errors.streetAddress}
+                    </p>
+                  )}
+                  {/* <input
                     type="text"
                     name="streetAddress"
                     id="streetAddress"
@@ -278,7 +393,7 @@ const FarmRegister = () => {
                     <p className="error font-semibold">
                       {errors.streetAddress}
                     </p>
-                  )}
+                  )} */}
                 </div>
               </div>
 
@@ -290,7 +405,34 @@ const FarmRegister = () => {
                   Country
                 </label>
                 <div className="mt-2">
-                  <input
+                  {ctry ? (
+                    <input
+                      type="text"
+                      name="country"
+                      id="country"
+                      className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl sm:leading-8 ${
+                        errors.country ? "input_Error" : ""
+                      }`}
+                      value={values.country}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  ) : (
+                    <input
+                      type="text"
+                      name="country"
+                      id="country"
+                      className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl sm:leading-8`}
+                      onClick={farmerCtry}
+                      value={"India"}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  )}
+                  {errors.country && touched.country && (
+                    <p className="error font-semibold">{errors.country}</p>
+                  )}
+                  {/* <input
                     type="text"
                     name="country"
                     id="country"
@@ -303,7 +445,7 @@ const FarmRegister = () => {
                   />
                   {errors.country && touched.country && (
                     <p className="error font-semibold">{errors.country}</p>
-                  )}
+                  )} */}
                 </div>
               </div>
 
@@ -315,7 +457,34 @@ const FarmRegister = () => {
                   City
                 </label>
                 <div className="mt-2">
-                  <input
+                  {city ? (
+                    <input
+                      type="text"
+                      name="city"
+                      id="city"
+                      className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl sm:leading-8 ${
+                        errors.city ? "input_Error" : ""
+                      }`}
+                      value={values.city}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  ) : (
+                    <input
+                      type="text"
+                      name="city"
+                      id="city"
+                      className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl sm:leading-8`}
+                      onClick={farmerCity}
+                      value={"Malur"}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  )}
+                  {errors.city && touched.city && (
+                    <p className="error font-semibold">{errors.city}</p>
+                  )}
+                  {/* <input
                     type="text"
                     name="city"
                     id="city"
@@ -328,7 +497,7 @@ const FarmRegister = () => {
                   />
                   {errors.city && touched.city && (
                     <p className="error font-semibold">{errors.city}</p>
-                  )}
+                  )} */}
                 </div>
               </div>
 
@@ -340,7 +509,38 @@ const FarmRegister = () => {
                   State / Province
                 </label>
                 <div className="mt-2">
-                  <select
+                  {region ? (
+                    <select
+                      id="region"
+                      name="region"
+                      className={`block w-full rounded-md border px-1.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-xl sm:leading-8 ${
+                        errors.region ? "input_Error" : ""
+                      }`}
+                      value={values.region}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    >
+                      <option value="">choose...</option>
+                      <option value="Karnataka">Karnataka</option>
+                      <option value="TamilNadu">TamilNadu</option>
+                      <option value="Kerala">Kerala</option>
+                    </select>
+                  ) : (
+                    <input
+                      type="text"
+                      name="region"
+                      id="region"
+                      className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl sm:leading-8`}
+                      onClick={farmerRegion}
+                      value={"Karnataka"}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  )}
+                  {errors.region && touched.region && (
+                    <p className="error font-semibold">{errors.region}</p>
+                  )}
+                  {/* <select
                     id="region"
                     name="region"
                     className={`block w-full rounded-md border px-1.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-xl sm:leading-8 ${
@@ -357,7 +557,7 @@ const FarmRegister = () => {
                   </select>
                   {errors.region && touched.region && (
                     <p className="error font-semibold">{errors.region}</p>
-                  )}
+                  )} */}
                 </div>
               </div>
 
@@ -369,7 +569,38 @@ const FarmRegister = () => {
                   Distirct
                 </label>
                 <div className="mt-2">
-                  <select
+                  {dist ? (
+                    <select
+                      id="district"
+                      name="district"
+                      className={`block w-full rounded-md border px-1.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-xl sm:leading-8 ${
+                        errors.district ? "input_Error" : ""
+                      }`}
+                      value={values.district}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    >
+                      <option value="">choose...</option>
+                      <option value="Kolar">Kolar</option>
+                      <option value="Chikkaballapur">Chikkaballapur</option>
+                      <option value="Hassan">Hassan</option>
+                    </select>
+                  ) : (
+                    <input
+                      type="text"
+                      name="district"
+                      id="district"
+                      className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl sm:leading-8`}
+                      onClick={farmerDist}
+                      value={"Kolar"}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  )}
+                  {errors.district && touched.district && (
+                    <p className="error font-semibold">{errors.district}</p>
+                  )}
+                  {/* <select
                     id="district"
                     name="district"
                     className={`block w-full rounded-md border px-1.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-xl sm:leading-8 ${
@@ -386,7 +617,7 @@ const FarmRegister = () => {
                   </select>
                   {errors.district && touched.district && (
                     <p className="error font-semibold">{errors.district}</p>
-                  )}
+                  )} */}
                 </div>
               </div>
 
@@ -398,7 +629,34 @@ const FarmRegister = () => {
                   ZIP / Postal code
                 </label>
                 <div className="mt-2">
-                  <input
+                  {pCode ? (
+                    <input
+                      type="text"
+                      name="postalCode"
+                      id="postalCode"
+                      className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl sm:leading-8 ${
+                        errors.postalCode ? "input_Error" : ""
+                      }`}
+                      value={values.postalCode}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  ) : (
+                    <input
+                      type="text"
+                      name="postalCode"
+                      id="postalCode"
+                      className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl sm:leading-8`}
+                      onClick={farmerPCode}
+                      value={"563130"}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  )}
+                  {errors.postalCode && touched.postalCode && (
+                    <p className="error font-semibold">{errors.postalCode}</p>
+                  )}
+                  {/* <input
                     type="text"
                     name="postalCode"
                     id="postalCode"
@@ -411,7 +669,7 @@ const FarmRegister = () => {
                   />
                   {errors.postalCode && touched.postalCode && (
                     <p className="error font-semibold">{errors.postalCode}</p>
-                  )}
+                  )} */}
                 </div>
               </div>
 
@@ -423,7 +681,34 @@ const FarmRegister = () => {
                   Mobile Number
                 </label>
                 <div className="mt-2">
-                  <input
+                  {mNum ? (
+                    <input
+                      type="text"
+                      name="mobileNum"
+                      id="mobileNum"
+                      className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl sm:leading-8 ${
+                        errors.mobileNum ? "input_Error" : ""
+                      }`}
+                      value={values.mobileNum}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  ) : (
+                    <input
+                      type="text"
+                      name="mobileNum"
+                      id="mobileNum"
+                      className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl sm:leading-8`}
+                      onClick={farmerMob}
+                      value={"9741176872"}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  )}
+                  {errors.mobileNum && touched.mobileNum && (
+                    <p className="error font-semibold">{errors.mobileNum}</p>
+                  )}
+                  {/* <input
                     type="text"
                     name="mobileNum"
                     id="mobileNum"
@@ -436,7 +721,7 @@ const FarmRegister = () => {
                   />
                   {errors.mobileNum && touched.mobileNum && (
                     <p className="error font-semibold">{errors.mobileNum}</p>
-                  )}
+                  )} */}
                 </div>
               </div>
 
@@ -448,7 +733,34 @@ const FarmRegister = () => {
                   Adhar Number
                 </label>
                 <div className="mt-2">
-                  <input
+                  {adhNum ? (
+                    <input
+                      type="text"
+                      name="adharNum"
+                      id="adharNum"
+                      className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl sm:leading-8 ${
+                        errors.adharNum ? "input_Error" : ""
+                      }`}
+                      value={values.adharNum}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  ) : (
+                    <input
+                      type="text"
+                      name="adharNum"
+                      id="adharNum"
+                      className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl sm:leading-8`}
+                      onClick={farmerAdhr}
+                      value={1234567890}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  )}
+                  {errors.adharNum && touched.adharNum && (
+                    <p className="error font-semibold">{errors.adharNum}</p>
+                  )}
+                  {/* <input
                     type="text"
                     name="adharNum"
                     id="adharNum"
@@ -461,7 +773,7 @@ const FarmRegister = () => {
                   />
                   {errors.adharNum && touched.adharNum && (
                     <p className="error font-semibold">{errors.adharNum}</p>
-                  )}
+                  )} */}
                 </div>
               </div>
 
@@ -478,7 +790,31 @@ const FarmRegister = () => {
                       ID
                     </span>
                   </div>
-                  <input
+                  {fId ? (
+                    <input
+                      type="text"
+                      name="farmerId"
+                      id="farmerId"
+                      className={`block w-full rounded-md border px-1.5 px-10 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl sm:leading-8 ${
+                        errors.farmerId ? "input_Error" : ""
+                      }`}
+                      value={values.farmerId}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  ) : (
+                    <input
+                      type="text"
+                      name="farmerId"
+                      id="farmerId"
+                      className={`block w-full rounded-md border px-1.5 px-10 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl sm:leading-8`}
+                      onClick={farmerFId}
+                      value={"sunil010420"}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  )}
+                  {/* <input
                     type="text"
                     name="farmerId"
                     id="farmerId"
@@ -488,7 +824,7 @@ const FarmRegister = () => {
                     value={values.farmerId}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                  />
+                  /> */}
                 </div>
                 {errors.farmerId && touched.farmerId && (
                   <p className="error font-semibold">{errors.farmerId}</p>
@@ -519,4 +855,4 @@ const FarmRegister = () => {
   );
 };
 
-export default FarmRegister;
+export default UpdateFarm;

@@ -210,3 +210,35 @@
   background: rgba(255, 255, 255, 0.6);
   filter: blur(750px);
 }
+
+input.input_Error{
+  border-color: #e81010;
+  border-width: 3px;
+}
+select.input_Error {
+  border-color: #e81010;
+  border-width: 3px;
+}
+
+.error {
+  color: rgb(228, 9, 9);
+  font-size: 1rem;
+  text-align: left;
+  margin-top: 0.25rem;
+}
+
+button:disabled {
+  opacity: 0.75;
+}
+
+.img-display-before {
+  height: 200px;
+  width: 200px;
+  margin-left: 35px;
+}
+
+.img-display-after {
+  height: 200px;
+  width: 200px;
+  border-radius: 100%;
+}

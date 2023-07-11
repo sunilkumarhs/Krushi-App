@@ -24,6 +24,7 @@ import people03 from "./people03.png";
 import tradeDeal from "./tradeDeal.png";
 import hackerPost from "./hackerPost.jpg";
 import bg1 from "./bg1.jpg";
+import profileLogo from "./profileLogo.png";
 
 export {
   airbnb,
@@ -51,4 +52,5 @@ export {
   people03,
   hackerPost,
   bg1,
+  profileLogo,
 };

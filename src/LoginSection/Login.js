@@ -1,20 +1,52 @@
 import React, { useState } from "react";
 import { hackerPost, logo } from "../assets";
 import { Link, useNavigate } from "react-router-dom";
-// const colors = {
-//   primary: "#060606",
-//   background: "#f5f5f5",
-//   disabled: "#D9D9D9",
-// };
+import { useFormik } from "formik";
+import { sinupSchema } from "../Schemas";
+
+const onSubmit = async (values, actions) => {
+  console.log(values);
+  console.log(actions);
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+  actions.resetForm();
+};
 
 const Login = () => {
   const [modal, setModal] = useState(false);
+  const [category, setCategory] = useState("");
   const navigate = useNavigate();
   const regBlock = () => {
     setModal(!modal);
   };
-  const toRegister = () => {
-    navigate("/FarmRegister");
+
+  const {
+    values,
+    errors,
+    touched,
+    isSubmitting,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+  } = useFormik({
+    initialValues: {
+      remail: "",
+      rpass: "",
+      rcpass: "",
+    },
+    validationSchema: sinupSchema,
+    onSubmit,
+  });
+
+  const toRegister = async () => {
+    if (category.length !== 0) {
+      if (category.includes("Farmer")) {
+        navigate("/UpdateFarm");
+      } else {
+        navigate("/BuyRegister");
+      }
+    } else {
+      alert("Select the signIn type !");
+    }
   };
   return (
     <>
@@ -34,8 +66,10 @@ const Login = () => {
             className="w-full h-full object-cover"
           />
         </div>
-
-        <div className="w-full h-full back-image flex flex-col p-5 justify-between items-center sm:w-1/2 sm:p-20">
+        <div
+          autoComplete="off"
+          className="w-full h-full back-image flex flex-col p-5 justify-between items-center sm:w-1/2 sm:p-20"
+        >
           <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
             <Link to="/">
               <svg
@@ -68,8 +102,11 @@ const Login = () => {
             <div className="w-full flex flex-col">
               <label>
                 <select
+                  id="category"
                   name="category"
-                  className=" p-2 mb-2 rounded-md font-semibold border border-black/40 cursor-pointer"
+                  className={`p-2 mb-2 rounded-md font-semibold border border-black/40 cursor-pointer`}
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
                 >
                   <option
                     value=""
@@ -94,14 +131,16 @@ const Login = () => {
               <input
                 type="email"
                 id="lemail"
+                name="lemail"
                 placeholder="Email"
-                className="w-full text-white py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none"
+                className={`w-full text-white py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none`}
               />
               <input
                 type="password"
                 id="lpass"
+                name="lpass"
                 placeholder="Password"
-                className="w-full text-white py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none"
+                className={`w-full text-white py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none`}
               />
             </div>
             <div className="w-full flex items-center justify-between">
@@ -115,8 +154,8 @@ const Login = () => {
             </div>
             <div className="w-full flex flex-col my-4">
               <button
+                type="submit"
                 onClick={toRegister}
-                type="button"
                 className=" cursor-pointer button-link w-full text-white  font-bold rounded-md p-4 text-center flex items-center justify-center text-l sm:text-xl"
               >
                 Sign In
@@ -156,7 +195,10 @@ const Login = () => {
         >
           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
-          <div className="fixed inset-0 z-10 overflow-y-auto">
+          <form
+            onSubmit={handleSubmit}
+            className="fixed inset-0 z-10 overflow-y-auto"
+          >
             <div className="flex min-h-full items-end justify-center p-20 text-center sm:items-center sm:p-0">
               <div className="back-sinup relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all max-w-[600px] min-w-[250px] sm:my-8 sm:w-full sm:max-w-lg sm:max-w-[600px] sm:min-w-[300px]">
                 <div className=" px-6 pb-8 pt-5 sm:p-6 sm:pb-4">
@@ -183,34 +225,71 @@ const Login = () => {
                           <input
                             type="email"
                             id="remail"
+                            name="remail"
                             placeholder="Email"
-                            className="w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none"
+                            className={`w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none ${
+                              errors.remail ? "input_Error" : ""
+                            }`}
+                            value={values.remail}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
                           />
+                          {errors.remail && touched.remail && (
+                            <p className="error font-semibold">
+                              {errors.remail}
+                            </p>
+                          )}
                           <input
                             type="password"
                             id="rpass"
+                            name="rpass"
                             placeholder="Password"
-                            className="w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none"
+                            className={`w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none ${
+                              errors.rpass ? "input_Error" : ""
+                            }`}
+                            value={values.rpass}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
                           />
+                          {errors.rpass && touched.rpass && (
+                            <p className="error font-semibold">
+                              {errors.rpass}
+                            </p>
+                          )}
                           <input
                             type="password"
                             id="rcpass"
+                            name="rcpass"
                             placeholder="Confirm Password"
-                            className="w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none"
+                            className={`w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none ${
+                              errors.rcpass ? "input_Error" : ""
+                            }`}
+                            value={values.rcpass}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
                           />
+                          {errors.rcpass && touched.rcpass && (
+                            <p className="error font-semibold">
+                              {errors.rcpass}
+                            </p>
+                          )}
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className=" flex flex-col my-4 px-8 py-3 ">
-                  <button className="w-full text-white my-2 font-semibold bg-[#060606] rounded-md p-4 text-center flex items-center justify-center cursor-pointer button-link">
+                  <button
+                    disabled={isSubmitting}
+                    type="submit"
+                    className="w-full text-white my-2 font-semibold bg-[#060606] rounded-md p-4 text-center flex items-center justify-center cursor-pointer button-link"
+                  >
                     Sign Up
                   </button>
                 </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       )}
     </>

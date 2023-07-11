@@ -10,6 +10,8 @@ import MainPage from "./MainPage";
 // import styles from "./style";
 import Login from "./LoginSection/Login";
 import FarmRegister from "./LoginSection/FarmRegister";
+import BuyRegister from "./LoginSection/BuyRegister";
+import UpdateFarm from "./LoginSection/UpdateFarm";
 const App = () => {
   return (
     <>
@@ -18,6 +20,8 @@ const App = () => {
           <Route path="/" exact Component={MainPage} />
           <Route path="/Login" Component={Login} />
           <Route path="/FarmRegister" Component={FarmRegister} />
+          <Route path="/BuyRegister" Component={BuyRegister} />
+          <Route path="/UpdateFarm" Component={UpdateFarm} />
           {/* <Route path="/SoilTesting" Component={SoilTesting} />
           <Route path="/SoilAboutUS" Component={SoilAboutUs} />
           <Route path="/SoilMathods" Component={SoilMethods}/>
