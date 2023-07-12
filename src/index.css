@@ -222,7 +222,6 @@ select.input_Error {
 
 .error {
   color: rgb(228, 9, 9);
-  font-size: 1rem;
   text-align: left;
   margin-top: 0.25rem;
 }
@@ -232,13 +231,13 @@ button:disabled {
 }
 
 .img-display-before {
-  height: 200px;
-  width: 200px;
-  margin-left: 35px;
+  height: 50px;
+  width: 50px;
+  
 }
 
 .img-display-after {
-  height: 200px;
-  width: 200px;
+  height: 50px;
+  width: 50px;
   border-radius: 100%;
 }

@@ -40,9 +40,9 @@ const Login = () => {
   const toRegister = async () => {
     if (category.length !== 0) {
       if (category.includes("Farmer")) {
-        navigate("/UpdateFarm");
-      } else {
         navigate("/BuyRegister");
+      } else {
+        navigate("/UpdateBuy");
       }
     } else {
       alert("Select the signIn type !");
@@ -50,7 +50,7 @@ const Login = () => {
   };
   return (
     <>
-      <div className="w-full h-screen flex items-start">
+      <div className="w-full h-screen flex items-start overflow-hidden">
         <div className="relative w-1/2 h-full flex flex-col sm:flex hidden">
           <div className="absolute top-[50%] left-[10%] flex flex-col">
             <h1 className="text-4xl text-white font-bold my-4">
@@ -104,7 +104,7 @@ const Login = () => {
                 <select
                   id="category"
                   name="category"
-                  className={`p-2 mb-2 rounded-md font-semibold border border-black/40 cursor-pointer`}
+                  className={`p-2 mb-2 rounded-md sm:text-xl text-l font-semibold border border-black/40 cursor-pointer`}
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                 >
@@ -133,14 +133,14 @@ const Login = () => {
                 id="lemail"
                 name="lemail"
                 placeholder="Email"
-                className={`w-full text-white py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none`}
+                className={`w-full text-white py-2 my-2 text-xl bg-transparent border-b border-black outline-none focus:outline-none`}
               />
               <input
                 type="password"
                 id="lpass"
                 name="lpass"
                 placeholder="Password"
-                className={`w-full text-white py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none`}
+                className={`w-full text-white py-2 my-2 bg-transparent border-b text-xl border-black outline-none focus:outline-none`}
               />
             </div>
             <div className="w-full flex items-center justify-between">
@@ -227,7 +227,7 @@ const Login = () => {
                             id="remail"
                             name="remail"
                             placeholder="Email"
-                            className={`w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none ${
+                            className={`w-full text-black text-xl py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none ${
                               errors.remail ? "input_Error" : ""
                             }`}
                             value={values.remail}
@@ -244,7 +244,7 @@ const Login = () => {
                             id="rpass"
                             name="rpass"
                             placeholder="Password"
-                            className={`w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none ${
+                            className={`w-full text-black text-xl py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none ${
                               errors.rpass ? "input_Error" : ""
                             }`}
                             value={values.rpass}
@@ -261,7 +261,7 @@ const Login = () => {
                             id="rcpass"
                             name="rcpass"
                             placeholder="Confirm Password"
-                            className={`w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none ${
+                            className={`w-full text-black py-2 my-2 text-xl bg-transparent border-b border-black outline-none focus:outline-none ${
                               errors.rcpass ? "input_Error" : ""
                             }`}
                             value={values.rcpass}

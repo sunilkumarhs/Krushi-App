@@ -12,6 +12,8 @@ import Login from "./LoginSection/Login";
 import FarmRegister from "./LoginSection/FarmRegister";
 import BuyRegister from "./LoginSection/BuyRegister";
 import UpdateFarm from "./LoginSection/UpdateFarm";
+import UpdateBuy from "./LoginSection/UpdateBuy";
+import FarmerSection from "./BussinessSection/FarmerSection";
 const App = () => {
   return (
     <>
@@ -22,6 +24,8 @@ const App = () => {
           <Route path="/FarmRegister" Component={FarmRegister} />
           <Route path="/BuyRegister" Component={BuyRegister} />
           <Route path="/UpdateFarm" Component={UpdateFarm} />
+          <Route path="/UpdateBuy" Component={UpdateBuy} />
+          <Route path="/FarmerSection" Component={FarmerSection} />
           {/* <Route path="/SoilTesting" Component={SoilTesting} />
           <Route path="/SoilAboutUS" Component={SoilAboutUs} />
           <Route path="/SoilMathods" Component={SoilMethods}/>

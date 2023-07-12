@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 
 const pincode = /^[0-9]{6}?$/;
-const mobNum = /^[1-9][0-9]{10}?$/;
+const mobNum = /^[0-9]{10}?$/;
 const adhNum = /^[0-9]{12}?$/;
 const contNum = /^\+?[1-9][0-9]{7,14}$/;
 

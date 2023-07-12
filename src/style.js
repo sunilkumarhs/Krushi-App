@@ -5,6 +5,7 @@ const styles = {
     "font-poppins font-semibold sm:text-[48px] text-[20px] text-yellow-500 sm:leading-[76.8px] leading-[30px] w-full",
   paragraph:
     "font-poppins font-normal text-dimWhite text-[15px] sm:text-[18px] leading-[25.8px] sm:leading-[35px]",
+  error: "text-red-500 text-left mt-0 sm:mt-2 text-sm sm:text-l",
 
   flexCenter: "flex justify-center items-center",
   flexStart: "flex justify-center items-start",
