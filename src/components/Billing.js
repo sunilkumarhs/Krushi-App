@@ -19,14 +19,14 @@ const Billing = () => (
         Easily control your <br className="sm:block hidden" />
         cultivation & trading.
       </h2>
-      <p className={`${styles.paragraph} max-w-[470px] mt-5`}>
+      <p className={`${styles.paragraph} max-w-[470px] mt-2 sm:mt-5`}>
         In fact, it is the product, but also the mass. Contribute to
         transforming agriculture into a more data-driven, efficient, and
         sustainable industry, benefiting both farmers and the overall food
         production system.
       </p>
 
-      <div className="flex flex-row flex-wrap sm:mt-10 mt-4">
+      <div className="flex flex-row flex-wrap sm:mt-10 mt-2">
         <img
           src={apple}
           alt="apple_play"

@@ -80,3 +80,11 @@ export const sinupSchema = Yup.object({
     .oneOf([Yup.ref("rpass"), null], "Password should be matched")
     .required("Please confirm the password !"),
 });
+
+export const prdSchema = Yup.object({
+  pType: Yup.string().required("Please select the product type !"),
+  pName: Yup.string().required("Please choose the product !"),
+  qGrade: Yup.string().required("Please select the prd-qlty-grade !"),
+  qty: Yup.number().positive().required("Please specify the quantity !"),
+  qtyRs: Yup.number().positive().required("Please enter the price per qty !"),
+});

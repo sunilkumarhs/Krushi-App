@@ -50,7 +50,7 @@ const UpdateFarm = () => {
       postalCode: "563130",
       mobileNum: "9741176872",
       adharNum: "123456789012",
-      farmerId: "sunil@1718",
+      farmerId: "sunil171820",
     },
     validationSchema: farmSchema,
     onSubmit,
@@ -90,8 +90,8 @@ const UpdateFarm = () => {
     setFId(true);
   };
 
-  const toLogin = () => {
-    navigate("/Login");
+  const toFarm = () => {
+    navigate("/FarmerSection");
   };
   const handleImage = () => {
     imageRef.current.click();
@@ -557,7 +557,7 @@ const UpdateFarm = () => {
                   htmlFor="mobileNum"
                   className="block text-l leading-2 sm:text-xl font-medium sm:leading-6 text-white"
                 >
-                  Mobile Number
+                  Mobile - Number
                 </label>
                 <div className="mt-0 sm:mt-2">
                   {mNum ? (
@@ -678,7 +678,7 @@ const UpdateFarm = () => {
           <button
             type="button"
             className="text-l sm:text-xl font-bold leading-2 sm:leading-6 bg-blue-700 text-white hover:bg-red-600 px-1 py-1 sm:px-3 sm:py-2 rounded-md shadow-sm ring-1 ring-inset ring-gray-300"
-            onClick={toLogin}
+            onClick={toFarm}
           >
             Cancel
           </button>

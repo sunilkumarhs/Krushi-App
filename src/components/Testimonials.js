@@ -13,7 +13,7 @@ const Testimonials = () => (
       <h1 className={styles.heading2}>
         What people are <br className="sm:block hidden" /> saying about us
       </h1>
-      <div className="w-full md:mt-0 mt-2 sm:mt-6">
+      <div className="w-full md:mt-4 mt-2 sm:mt-6">
         <p className={`${styles.paragraph} text-left max-w-[450px]`}>
           Everything you need to accept know market strategies and grow your
           business anywhere on the palent.

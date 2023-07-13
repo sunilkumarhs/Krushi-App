@@ -338,7 +338,7 @@ const BuyRegister = () => {
                 <div className="relative mt-0 sm:mt-2">
                   <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center bg-gray-200 rounded-md ">
                     <span className=" text-gray-500  leading-2 sm:text-xl sm:leading-10  px-2 ">
-                      ID
+                      @
                     </span>
                   </div>
                   <input

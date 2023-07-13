@@ -40,9 +40,9 @@ const Login = () => {
   const toRegister = async () => {
     if (category.length !== 0) {
       if (category.includes("Farmer")) {
-        navigate("/BuyRegister");
+        navigate("/FarmRegister");
       } else {
-        navigate("/UpdateBuy");
+        navigate("/BuyRegister");
       }
     } else {
       alert("Select the signIn type !");
@@ -66,10 +66,7 @@ const Login = () => {
             className="w-full h-full object-cover"
           />
         </div>
-        <div
-          autoComplete="off"
-          className="w-full h-full back-image flex flex-col p-5 justify-between items-center sm:w-1/2 sm:p-20"
-        >
+        <div className="w-full h-full back-image flex flex-col p-5 justify-between items-center sm:w-1/2 sm:p-20">
           <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
             <Link to="/">
               <svg

@@ -3,9 +3,8 @@ import { close, logo, menu } from "../assets";
 import { Buttons } from "../components/Buttons";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { profileLogo } from "../assets";
 
-const BNavBar = () => {
+const BNavBarT = () => {
   const navigate = useNavigate();
   const [toggle, setToggle] = useState(false);
   const [model, setModel] = useState(false);
@@ -14,7 +13,7 @@ const BNavBar = () => {
     setModel(!model);
   };
   const toUpdate = () => {
-    navigate("/UpdateFarm");
+    navigate("/UpdateBuy");
   };
 
   return (
@@ -113,16 +112,6 @@ const BNavBar = () => {
                         This information will be displayed publicly so be
                         careful what you share.
                       </p>
-                      <div className="col-span-full">
-                        <div className="mt-0 sm:mt-2 flex items-center gap-x-6 sm:gap-x-7">
-                          <img
-                            src={profileLogo}
-                            alt="profile"
-                            className="img-display-after sm:h-[100px] sm:w-[100px]"
-                            aria-hidden="true"
-                          />
-                        </div>
-                      </div>
                       <div className="border-b border-gray-900/10 mt-2 sm:mt-4 grid grid-cols-1 gap-x-6 gap-y-2 sm:gap-y-8 sm:grid-cols-6">
                         <div className="sm:col-span-4 mb-4">
                           <label
@@ -161,8 +150,8 @@ const BNavBar = () => {
                         <div className="col-span-2 sm:col-span-3">
                           <div className="mt-2 sm:mt-8">
                             <input
-                              id="agriType"
-                              name="agriType"
+                              id="buyType"
+                              name="buyType"
                               className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:max-w-xs sm:text-xl sm:leading-6`}
                               disabled
                               // value={values.agriType}
@@ -171,54 +160,37 @@ const BNavBar = () => {
                         </div>
 
                         <div className="mt-2 sm:mt-8 grid grid-cols-2 gap-x-2 sm:gap-x-6 gap-y-0 sm:gap-y-8 sm:grid-cols-4">
-                          <div className=" col-span-1 sm:col-span-1">
+                          <div className=" col-span-2 sm:col-span-2">
                             <label
-                              htmlFor="firstName"
+                              htmlFor="cName"
                               className="block text-l sm:text-xl font-medium leading-2 sm:leading-6 text-white"
                             >
-                              First name
+                              Company/Shop Name
                             </label>
                             <div className="mt-0 sm:mt-2">
                               <input
                                 type="text"
-                                name="firstName"
-                                id="firstName"
+                                name="cName"
+                                id="cName"
                                 className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:text-xl sm:leading-8`}
                                 disabled
                               />
                             </div>
                           </div>
 
-                          <div className="col-span-1 sm:col-span-1">
-                            <label
-                              htmlFor="lastName"
-                              className="block text-l sm:text-xl font-medium leading-2 sm:leading-6 text-white"
-                            >
-                              Last name
-                            </label>
-                            <div className="mt-0 sm:mt-2">
-                              <input
-                                type="text"
-                                name="lastName"
-                                id="lastName"
-                                className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:text-xl sm:leading-8`}
-                                disabled
-                              />
-                            </div>
-                          </div>
                           <div className="col-span-2 sm:col-span-3">
                             <label
-                              htmlFor="streetAddress"
+                              htmlFor="cAddress"
                               className="block text-l sm:text-xl font-medium leading-2 sm:leading-6 text-white"
                             >
-                              Street address
+                              Company Address
                             </label>
                             <div className="mt-0 sm:mt-2">
                               <input
                                 type="text"
-                                name="streetAddress"
-                                id="streetAddress"
-                                className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:text-xl sm:leading-8`}
+                                name="cAddress"
+                                id="cAddress"
+                                className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:text-xl sm:leading-8`}
                                 disabled
                               />
                             </div>
@@ -319,7 +291,7 @@ const BNavBar = () => {
                               htmlFor="mobileNum"
                               className="block text-l sm:text-xl font-medium leading-2 sm:leading-6 text-white"
                             >
-                              Mobile Number
+                              Contact Number
                             </label>
                             <div className="mt-0 sm:mt-2">
                               <input
@@ -332,41 +304,23 @@ const BNavBar = () => {
                             </div>
                           </div>
 
-                          <div className=" col-span-2 sm:col-span-1">
-                            <label
-                              htmlFor="adharNum"
-                              className="block text-l sm:text-xl font-medium leading-2 sm:leading-6 text-white"
-                            >
-                              Adhar Number
-                            </label>
-                            <div className="mt-0 sm:mt-2">
-                              <input
-                                type="text"
-                                name="adharNum"
-                                id="adharNum"
-                                className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:text-xl sm:leading-8`}
-                                disabled
-                              />
-                            </div>
-                          </div>
-
                           <div className=" col-span-2 sm:col-span-2">
                             <label
-                              htmlFor="farmerId"
+                              htmlFor="cMId"
                               className="block text-l sm:text-xl font-medium leading-2 sm:leading-6 text-white"
                             >
-                              FarmerId
+                              Company Mail-Id
                             </label>
                             <div className="relative mt-0 sm:mt-2">
                               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center bg-gray-200 rounded-md ">
                                 <span className=" text-gray-500  leading-2 sm:text-xl sm:leading-10  px-2 ">
-                                  ID
+                                  @
                                 </span>
                               </div>
                               <input
                                 type="text"
-                                name="farmerId"
-                                id="farmerId"
+                                name="cMId"
+                                id="cMId"
                                 className={`block w-full rounded-md border px-10 py-1 sm:py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:text-xl sm:leading-8`}
                                 disabled
                               />
@@ -395,4 +349,4 @@ const BNavBar = () => {
   );
 };
 
-export default BNavBar;
+export default BNavBarT;

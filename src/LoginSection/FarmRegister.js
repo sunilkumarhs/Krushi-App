@@ -6,8 +6,8 @@ import { profileLogo } from "../assets";
 import styles from "../style";
 
 const onSubmit = async (values, actions) => {
-  // console.log(values);
-  // console.log(actions);
+  console.log(values);
+  console.log(actions);
   await new Promise((resolve) => setTimeout(resolve, 2000));
   actions.resetForm();
 };
@@ -420,7 +420,7 @@ const FarmRegister = () => {
                   htmlFor="mobileNum"
                   className="block text-l sm:text-xl font-medium leading-2 sm:leading-6 text-white"
                 >
-                  Mobile Number
+                  Mobile - Number
                 </label>
                 <div className="mt-0 sm:mt-2">
                   <input

@@ -2,8 +2,110 @@ import React from "react";
 import styles from "../style";
 import BNavBar from "./BNavBar";
 import trading from "../videos/trading.mp4";
+import { prdSchema } from "../Schemas";
+import { useFormik } from "formik";
+import TableScrollbar from "react-table-scrollbar";
+
+const onSubmit = async (values, actions) => {
+  console.log(values);
+  console.log(actions);
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+  actions.resetForm();
+};
+
+const recentOrderData = [
+  {
+    id: "1",
+    product_type: "Vegitable",
+    product_name: "Tamato",
+    quality: "A+",
+    quantity: "30",
+    price: "2000",
+  },
+  {
+    id: "2",
+    product_type: "Vegitable",
+    product_name: "Carrot",
+    quality: "A",
+    quantity: "50",
+    price: "900",
+  },
+  {
+    id: "3",
+    product_type: "Fruits",
+    product_name: "Mango",
+    quality: "A+",
+    quantity: "80",
+    price: "850",
+  },
+  {
+    id: "4",
+    product_type: "Dairy Products",
+    product_name: "Milk",
+    quality: "A+",
+    quantity: "20",
+    price: "60",
+  },
+  {
+    id: "5",
+    product_type: "Spices",
+    product_name: "Chilli",
+    quality: "B+",
+    quantity: "60",
+    price: "500",
+  },
+  {
+    id: "6",
+    product_type: "Vegitable",
+    product_name: "Tamato",
+    quality: "B",
+    quantity: "40",
+    price: "1200",
+  },
+  {
+    id: "7",
+    product_type: "Vegitable",
+    product_name: "Tamato",
+    quality: "B",
+    quantity: "40",
+    price: "1200",
+  },
+  {
+    id: "8",
+    product_type: "Vegitable",
+    product_name: "Tamato",
+    quality: "B",
+    quantity: "40",
+    price: "1200",
+  },
+];
 
 const FarmerSection = () => {
+  const {
+    values,
+    errors,
+    touched,
+    isSubmitting,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+  } = useFormik({
+    initialValues: {
+      pType: "",
+      pName: "",
+      qGrade: "",
+      qty: "",
+      qtyRs: "",
+    },
+    validationSchema: prdSchema,
+    onSubmit,
+  });
+
+  const handleCancle = () => {
+    window.location.reload(false);
+  };
+  const deleteItem = () => {};
+
   return (
     <div className="w-full overflow-hidden">
       <div className={`bg-primary ${styles.paddingX} ${styles.flexCenter}`}>
@@ -31,363 +133,401 @@ const FarmerSection = () => {
         </video>
       </div>
       <div
-        className={`flex-1 ${styles.flexStart} flex-col xl:px-0 sm:px-16 px-6`}
+        className={`flex-1 ${styles.flexCenter} flex-col xl:px-0 sm:px-16 px-3`}
       >
-        <div className="flex flex-row justify-between items-center w-full">
-          <h1 className="flex-1 font-poppins font-bold sm:text-[52px] text-[12px] mt-2 text-white leading-[25px] sm:leading-[70px]">
-            Welcome To <span className="text-gradient">Farmer Trading </span>
-            Section
-          </h1>
-        </div>
+        <label className="flex-1 font-poppins font-bold sm:text-6xl text-l mt-0 sm:mt-2 text-white leading-8 sm:leading-16">
+          Welcome To <span className="text-gradient">Farmer Trading </span>
+          Section
+        </label>
       </div>
-      <div className={`sm:hidden ${styles.flexCenter}`}></div>
       <div
-        className={`flex-1 ${styles.flexCenter} flex-col xl:px-0 sm:px-10 px-1 py-3`}
+        className={`flex-1 ${styles.flexCenter} flex-col xl:px-0 sm:px-10 px-1 py-0 sm:py-1`}
       >
-        <div className="mx-auto mt-5 max-w-2xl rounded-2xl border border-white sm:mt-10 lg:mx-0 lg:flex lg:max-w-none">
-          <div className="p-4 sm:p-5 lg:flex-auto">
-            <h3 className="text-xl font-bold tracking-tight text-white sm:text-3xl">
+        <div className="mx-auto mt-1 sm:mt-5 max-w-2xl rounded-2xl border border-white sm:mt-10 lg:mx-0 lg:flex lg:max-w-none">
+          <div className="p-1 sm:p-3 lg:flex-auto">
+            <h3 className="text-l mb-1 font-bold tracking-tight text-white sm:text-3xl">
               Add Your Products
             </h3>
-            {/* form */}
             <form
-              // onSubmit={handleSubmit}
+              onSubmit={handleSubmit}
               autoComplete="off"
-              className="border border-black/40 rounded-md p-5 back-reg"
+              className="border border-black/40 rounded-md p-1 sm:p-4 bg-transparent sm:backdrop-blur-md"
             >
-              <div className="space-y-12">
-                {/* <div className="border-b border-gray-900/10 pb-12">
-            <h2 className="text-4xl font-bold leading-7  text-white">
-              Profile
-            </h2>
-            <p className="mt-1 text-l leading-6 text-white">
-              This information will be displayed publicly so be careful what you
-              share.
-            </p>
-
-            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div className="sm:col-span-4">
-                <label
-                  htmlFor="username"
-                  className="block text-xl font-medium leading-6 text-white"
-                >
-                  UserId
-                </label>
-                <div className=" relative mt-2">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center bg-gray-200 rounded-md ">
-                    <span className=" text-gray-500 sm:text-xl sm:leading-10  px-2 ">
-                      @
-                    </span>
-                  </div>
-                  <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                    <input
-                      id="username"
-                      placeholder="userid"
-                      className="block flex-1 border-0 bg-transparent py-1.5 pl-1 
-                      placeholder:px-10
-                      placeholder:sm:text-xl
-                      placeholder:text-black
-                      sm:leading-8 font-bold"
-                      disabled
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="col-span-full">
-                <label className="block text-xl font-medium leading-6 text-white">
-                  Photo
-                </label>
-                <div className="mt-2 flex items-center gap-x-3 sm:gap-x-7">
-                  {pic ? (
-                    <img
-                      src={URL.createObjectURL(pic)}
-                      alt="profile"
-                      className="img-display-after sm:h-[200px] sm:w-[200px]"
-                      aria-hidden="true"
-                    />
-                  ) : (
-                    <img
-                      src={profileLogo}
-                      alt="profile"
-                      className="img-display-before rounded-lg sm:h-[200px] sm:w-[200px] sm:ml-[35px]"
-                      aria-hidden="true"
-                    />
-                  )}
-                  <button
-                    type="button"
-                    className="rounded-md bg-white px-2.5 py-1.5 text-xl font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 button-link"
-                    onClick={handleImage}
-                  >
-                    <input
-                      type="file"
-                      id="pic"
-                      ref={imageRef}
-                      onChange={handleImageChange}
-                      style={{ display: "none" }}
-                    />
-                    Change
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div> */}
-
-                <div className="border-b border-gray-900/10 pb-12">
-                  {/* <h2 className="text-4xl font-bold leading-8 text-white">
-                    Personal Information
-                  </h2>
-                  <p className="mt-1 text-l leading-6 text-white">
-                    Use a permanent address where you can receive mail.
-                  </p> */}
-
-                  <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-4">
-                    <div className=" col-span-3 sm:col-span-2">
-                      <label
-                        htmlFor="firstName"
-                        className="block text-xl font-medium leading-6 text-white"
+              <div className="border-b border-gray-900/10 pb-2 sm:pb-4">
+                <div className=" grid grid-cols-2 gap-x-3 sm:gap-x-6 gap-y-1 sm:grid-cols-5">
+                  <div className=" col-span-1 sm:col-span-1">
+                    <label
+                      htmlFor="pType"
+                      className="block text-l leading-2 sm:text-xl font-medium sm:leading-6 text-white"
+                    >
+                      Product Type
+                    </label>
+                    <div className="mt-0 sm:mt-2">
+                      <select
+                        id="pType"
+                        name="pType"
+                        className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:max-w-xs sm:text-xl sm:leading-8 ${
+                          errors.pType ? "input_Error" : ""
+                        }`}
+                        value={values.pType}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       >
-                        First name
-                      </label>
-                      <div className="mt-2">
-                        <input
-                          type="text"
-                          name="firstName"
-                          id="firstName"
-                          className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-4 sm:text-xl sm:leading-8`}
-                          // value={values.firstName}
-                          // onChange={handleChange}
-                          // onBlur={handleBlur}
-                        />
-                        {/* {errors.firstName && touched.firstName && (
-                    <p className="error font-semibold">{errors.firstName}</p>
-                  )} */}
-                      </div>
+                        <option value="">choose..</option>
+                        <option value="Vegitable">Vegitable</option>
+                        <option value="Grains">Grains</option>
+                        <option value="Fruits">Fruits</option>
+                        <option value="MISC">MISC</option>
+                        <option value="DairyProducts">DairyProducts</option>
+                        <option value="Spices">Spices</option>
+                      </select>
+                      {errors.pType && touched.pType && (
+                        <p className={styles.error}>{errors.pType}</p>
+                      )}
                     </div>
+                  </div>
 
-                    {/* <div className="col-span-3 sm:col-span-1">
-                <label
-                  htmlFor="lastName"
-                  className="block text-xl font-medium leading-6 text-white"
-                >
-                  Last name
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    name="lastName"
-                    id="lastName"
-                    className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl sm:leading-8 ${
-                      errors.lastName ? "input_Error" : ""
-                    }`}
-                    value={values.lastName}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                  {errors.lastName && touched.lastName && (
-                    <p className="error font-semibold">{errors.lastName}</p>
-                  )}
-                </div>
-              </div>
-              <div className="col-span-3">
-                <label
-                  htmlFor="streetAddress"
-                  className="block text-xl font-medium leading-6 text-white"
-                >
-                  Street address
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    name="streetAddress"
-                    id="streetAddress"
-                    className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl sm:leading-8 ${
-                      errors.streetAddress ? "input_Error" : ""
-                    }`}
-                    value={values.streetAddress}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                  {errors.streetAddress && touched.streetAddress && (
-                    <p className="error font-semibold">
-                      {errors.streetAddress}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              <div className=" col-span-3 sm:col-span-1">
-                <label
-                  htmlFor="country"
-                  className="block text-xl font-medium leading-6 text-white"
-                >
-                  Country
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    name="country"
-                    id="country"
-                    className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl sm:leading-8 ${
-                      errors.country ? "input_Error" : ""
-                    }`}
-                    value={values.country}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                  {errors.country && touched.country && (
-                    <p className="error font-semibold">{errors.country}</p>
-                  )}
-                </div>
-              </div>
-
-              <div className="col-span-3 sm:col-span-1 sm:col-start-1">
-                <label
-                  htmlFor="city"
-                  className="block text-xl font-medium leading-6 text-white"
-                >
-                  City
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    name="city"
-                    id="city"
-                    className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl sm:leading-8 ${
-                      errors.city ? "input_Error" : ""
-                    }`}
-                    value={values.city}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                  {errors.city && touched.city && (
-                    <p className="error font-semibold">{errors.city}</p>
-                  )}
-                </div>
-              </div> */}
-
-                    <div className=" col-span-3 sm:col-span-1">
-                      <label
-                        htmlFor="region"
-                        className="block text-xl font-medium leading-6 text-white"
-                      >
-                        State / Province
-                      </label>
-                      <div className="mt-2">
+                  <div className=" col-span-1 sm:col-span-1">
+                    <label
+                      htmlFor="pName"
+                      className="block text-l leading-2 sm:text-xl font-medium sm:leading-6 text-white"
+                    >
+                      Product Name
+                    </label>
+                    <div className="mt-0 sm:mt-2">
+                      {values.pType === "Vegitable" ? (
                         <select
-                          id="region"
-                          name="region"
-                          className={`block w-full rounded-md border px-1.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-xl sm:leading-8`}
-                          // value={values.region}
-                          // onChange={handleChange}
-                          // onBlur={handleBlur}
+                          id="pName"
+                          name="pName"
+                          className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:max-w-xs sm:text-xl sm:leading-8 ${
+                            errors.pType ? "input_Error" : ""
+                          }`}
+                          value={values.pName}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
                         >
-                          <option value="">choose...</option>
-                          <option value="Karnataka">Karnataka</option>
-                          <option value="TamilNadu">TamilNadu</option>
-                          <option value="Kerala">Kerala</option>
+                          <option value="">choose..</option>
+                          <option value="Aloe Vera">Aloe Vera</option>
+                          <option value="Beetroot">Beetroot</option>
+                          <option value="Capsicum">Capsicum</option>
+                          <option value="Drumstick">Drumstick</option>
+                          <option value="Fenugreek Leaves">
+                            Fenugreek Leaves
+                          </option>
+                          <option value="Garlic">Garlic</option>
+                          <option value="Ivy gourd">Ivy gourd</option>
+                          <option value="Jimikand">Jimikand</option>
+                          <option value="Lobia Pods">Lobia Pods</option>
+                          <option value="Mustard leaf">Mustard leaf</option>
+                          <option value="Onion">Onion</option>
+                          <option value="Potato">Potato</option>
+                          <option value="Reddish">Reddish</option>
+                          <option value="Sweet Corn">Sweet Corn</option>
+                          <option value="Tapioca">Tapioca</option>
                         </select>
-                        {/* {errors.region && touched.region && (
-                    <p className="error font-semibold">{errors.region}</p>
-                  )} */}
-                      </div>
-                    </div>
-
-                    <div className=" col-span-3 sm:col-span-1">
-                      <label
-                        htmlFor="district"
-                        className="block text-xl font-medium leading-6 text-white"
-                      >
-                        Distirct
-                      </label>
-                      <div className="mt-2">
+                      ) : values.pType === "Fruits" ? (
                         <select
-                          id="district"
-                          name="district"
-                          className={`block w-full rounded-md border px-1.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-xl sm:leading-8`}
-                          // value={values.district}
-                          // onChange={handleChange}
-                          // onBlur={handleBlur}
+                          id="pName"
+                          name="pName"
+                          className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:max-w-xs sm:text-xl sm:leading-8 ${
+                            errors.pType ? "input_Error" : ""
+                          }`}
+                          value={values.pName}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
                         >
-                          <option value="">choose...</option>
-                          <option value="Kolar">Kolar</option>
-                          <option value="Chikkaballapur">Chikkaballapur</option>
-                          <option value="Hassan">Hassan</option>
+                          <option value="">choose..</option>
+                          <option value="Amla">Amla</option>
+                          <option value="Banana">Banana</option>
+                          <option value="Custard apple">Custard apple</option>
+                          <option value="Grapes">Grapes</option>
+                          <option value="Jackfruit">Jackfruit</option>
+                          <option value="Kinnow">Kinnow</option>
+                          <option value="Litchi">Litchi</option>
+                          <option value="Mango">Mango</option>
+                          <option value="Orange">Orange</option>
+                          <option value="Papaya">Papaya</option>
+                          <option value="Pomegranate">Pomegranate</option>
+                          <option value="Rambutan">Rambutan</option>
+                          <option value="Sapota">Sapota</option>
+                          <option value="Stawberries">Stawberries</option>
+                          <option value="Watermelon">Watermelon</option>
                         </select>
-                        {/* {errors.district && touched.district && (
-                    <p className="error font-semibold">{errors.district}</p>
-                  )} */}
-                      </div>
-                    </div>
-
-                    <div className=" col-span-3 sm:col-span-1">
-                      <label
-                        htmlFor="postalCode"
-                        className="block text-xl font-medium leading-6 text-white"
-                      >
-                        ZIP / Postal code
-                      </label>
-                      <div className="mt-2">
+                      ) : values.pType === "Grains" ? (
+                        <select
+                          id="pName"
+                          name="pName"
+                          className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:max-w-xs sm:text-xl sm:leading-8 ${
+                            errors.pType ? "input_Error" : ""
+                          }`}
+                          value={values.pName}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        >
+                          <option value="">choose..</option>
+                          <option value="Arhar">Arhar</option>
+                          <option value="Bajra">Bajra</option>
+                          <option value="Chana Dal Split">
+                            Chana Dal Split
+                          </option>
+                          <option value="Foxtail Millet">Foxtail Millet</option>
+                          <option value="Horse Gram">Horse Gram</option>
+                          <option value="Jowar">Jowar</option>
+                          <option value="Kabuli Chana Whole">
+                            Kabuli Chana Whole
+                          </option>
+                          <option value="Lobia">Lobia</option>
+                          <option value="Maize">Maize</option>
+                          <option value="Oats Raw">Oats Raw</option>
+                          <option value="Paddy">Paddy</option>
+                          <option value="Ragi">Ragi</option>
+                          <option value="Urad Dal Split">Urad Dal Split</option>
+                          <option value="Wheat">Wheat</option>
+                        </select>
+                      ) : values.pType === "MISC" ? (
+                        <select
+                          id="pName"
+                          name="pName"
+                          className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:max-w-xs sm:text-xl sm:leading-8 ${
+                            errors.pType ? "input_Error" : ""
+                          }`}
+                          value={values.pName}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        >
+                          <option value="">choose..</option>
+                          <option value="Anthurium">Anthurium</option>
+                          <option value="Bamboo">Bamboo</option>
+                          <option value="Carnation">Carnation</option>
+                          <option value="Gladiolus">Gladiolus</option>
+                          <option value="Hilsa">Hilsa</option>
+                          <option value="Isabgol">Isabgol</option>
+                          <option value="Jaggery">Jaggery</option>
+                          <option value="Lily">Lily</option>
+                          <option value="Mahua flower">Mahua flower</option>
+                          <option value="Nutmeg Whole">Nutmeg Whole</option>
+                          <option value="Persimmon">Persimmon</option>
+                          <option value="Raw Coffee Beans">
+                            Raw Coffee Beans
+                          </option>
+                          <option value="Saffron">Saffron</option>
+                          <option value="Tulip">Tulip</option>
+                        </select>
+                      ) : values.pType === "DairyProducts" ? (
+                        <select
+                          id="pName"
+                          name="pName"
+                          className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:max-w-xs sm:text-xl sm:leading-8 ${
+                            errors.pType ? "input_Error" : ""
+                          }`}
+                          value={values.pName}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        >
+                          <option value="">choose..</option>
+                          <option value="Milk">Milk</option>
+                          <option value="Butter">Butter</option>
+                          <option value="Cheese">Cheese</option>
+                          <option value="Custard">Custard</option>
+                        </select>
+                      ) : values.pType === "Spices" ? (
+                        <select
+                          id="pName"
+                          name="pName"
+                          className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:max-w-xs sm:text-xl sm:leading-8 ${
+                            errors.pType ? "input_Error" : ""
+                          }`}
+                          value={values.pName}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        >
+                          <option value="">choose..</option>
+                          <option value="Ajwain">Ajwain</option>
+                          <option value="Black Pepper Whole">
+                            Black Pepper Whole
+                          </option>
+                          <option value="Cloves Whole">Cloves Whole</option>
+                          <option value="Dried Raw Mango Slices">
+                            Dried Raw Mango Slices
+                          </option>
+                          <option value="Fennel seed">Fennel seed</option>
+                          <option value="Large cardamom">Large cardamom</option>
+                          <option value="Mace Whole">Mace Whole</option>
+                          <option value="Poppy Seed">Poppy Seed</option>
+                          <option value="Red chilli">Red chilli</option>
+                          <option value="Tejpata">Tejpata</option>
+                        </select>
+                      ) : (
                         <input
                           type="text"
-                          name="postalCode"
-                          id="postalCode"
-                          className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl sm:leading-8`}
-                          // value={values.postalCode}
-                          // onChange={handleChange}
-                          // onBlur={handleBlur}
+                          name="pName"
+                          id="pName"
+                          placeholder="select-the-type"
+                          className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:text-xl sm:leading-8 `}
+                          disabled
                         />
-                        {/* {errors.postalCode && touched.postalCode && (
-                    <p className="error font-semibold">{errors.postalCode}</p>
-                  )} */}
-                      </div>
+                      )}
+                      {errors.pName && touched.pName && (
+                        <p className={styles.error}>{errors.pName}</p>
+                      )}
                     </div>
+                  </div>
 
-                    <div className=" col-span-3 sm:col-span-1">
-                      <label
-                        htmlFor="mobileNum"
-                        className="block text-xl font-medium leading-6 text-white"
+                  <div className=" col-span-1 sm:col-span-1">
+                    <label
+                      htmlFor="qGrade"
+                      className="block text-l leading-2 sm:text-xl font-medium sm:leading-6 text-white"
+                    >
+                      Quality Grade
+                    </label>
+                    <div className="mt-0 sm:mt-2">
+                      <select
+                        id="qGrade"
+                        name="qGrade"
+                        className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:max-w-xs sm:text-xl sm:leading-8 ${
+                          errors.pType ? "input_Error" : ""
+                        }`}
+                        value={values.qGrade}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                       >
-                        Mobile Number
-                      </label>
-                      <div className="mt-2">
-                        <input
-                          type="text"
-                          name="mobileNum"
-                          id="mobileNum"
-                          className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl sm:leading-8 `}
-                          // value={values.mobileNum}
-                          // onChange={handleChange}
-                          // onBlur={handleBlur}
-                        />
-                        {/* {errors.mobileNum && touched.mobileNum && (
-                    <p className="error font-semibold">{errors.mobileNum}</p>
-                  )} */}
-                      </div>
+                        <option value="">choose...</option>
+                        <option value="A+">A+</option>
+                        <option value="A">A</option>
+                        <option value="B+">B+</option>
+                      </select>
+                      {errors.qGrade && touched.qGrade && (
+                        <p className={styles.error}>{errors.qGrade}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className=" col-span-1 sm:col-span-1">
+                    <label
+                      htmlFor="qty"
+                      className="block text-l leading-2 sm:text-xl font-medium sm:leading-6 text-white sm:flex hidden"
+                    >
+                      Quantity In Quintal
+                    </label>
+                    <label
+                      htmlFor="qty"
+                      className="block text-l leading-2 sm:text-xl font-medium sm:leading-6 text-white sm:hidden"
+                    >
+                      Qty In Quintal
+                    </label>
+                    <div className="mt-0 sm:mt-2">
+                      <input
+                        type="number"
+                        name="qty"
+                        id="qty"
+                        className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:text-xl sm:leading-8 ${
+                          errors.pType ? "input_Error" : ""
+                        }`}
+                        value={values.qty}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                      {errors.qty && touched.qty && (
+                        <p className={styles.error}>{errors.qty}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className=" col-span-1 sm:col-span-1">
+                    <label
+                      htmlFor="qtyRs"
+                      className="block text-l leading-2 sm:text-xl font-medium sm:leading-6 text-white sm:flex hidden"
+                    >
+                      Price In ₹ per Quital
+                    </label>
+                    <label
+                      htmlFor="qtyRs"
+                      className="block text-l leading-2 sm:text-xl font-medium sm:leading-6 text-white sm:hidden"
+                    >
+                      ₹ per Quital
+                    </label>
+                    <div className="mt-0 sm:mt-2">
+                      <input
+                        type="number"
+                        name="qtyRs"
+                        id="qtyRs"
+                        className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:text-xl sm:leading-8 ${
+                          errors.pType ? "input_Error" : ""
+                        }`}
+                        value={values.qtyRs}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                      {errors.qtyRs && touched.qtyRs && (
+                        <p className={styles.error}>{errors.qtyRs}</p>
+                      )}
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-6 flex items-center justify-end gap-x-6">
+              <div className="mt-1 sm:mt-3 flex items-center justify-end gap-x-6">
                 <button
                   type="button"
-                  className="text-xl font-bold leading-6 bg-blue-700 text-white hover:bg-red-600 px-3 py-2 rounded-md shadow-sm ring-1 ring-inset ring-gray-300"
-                  // onClick={toLogin}
+                  className="text-l leading-2 sm:text-xl font-bold sm:leading-6 bg-blue-gradient text-white cancle-button px-1 py-1 sm:px-3 sm:py-2 rounded-md shadow-sm ring-1 ring-inset ring-gray-300"
+                  onClick={handleCancle}
                 >
                   Cancel
                 </button>
                 <button
-                  // disabled={isSubmitting}
+                  disabled={isSubmitting}
                   type="submit"
-                  className="rounded-md px-3 py-2 text-xl bg-blue-700 font-bold text-white shadow-sm hover:bg-green-600 shadow-sm ring-1 ring-inset ring-gray-300"
+                  className="rounded-md px-1 py-1 sm:px-3 sm:py-2 text-l leading-2 sm:leading-6 sm:text-xl bg-blue-gradient font-bold text-white shadow-sm add-button shadow-sm ring-1 ring-inset ring-gray-300"
                 >
-                  Submit
+                  Add Product
                 </button>
               </div>
             </form>
-            {/* formend */}
           </div>
+        </div>
+      </div>
+
+      <div className="backdrop-blur-sm sm:backdrop-blur-md px-1 pt-2 sm:px-4 sm:pt-3 pb-4 rounded-sm border border-white flex-1 sm:m-2 m-1 mt-2">
+        <h3 className="text-white text-l sm:text-3xl font-medium">
+          Products Table
+        </h3>
+        <div className="border-x border-white rounded-sm mt-3">
+          <TableScrollbar rows={7}>
+            <table className="w-full text-white table-auto">
+              <thead className="bg-neutral-400">
+                <tr>
+                  <th className={styles.thead}>ID</th>
+                  <th className={styles.thead}>Type</th>
+                  <th className={styles.thead}>Name</th>
+                  <th className={styles.thead}>Quality</th>
+                  <th className={styles.thead}>Quantity</th>
+                  <th className={styles.thead}>Price in ₹</th>
+                  <th className={styles.thead}>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {recentOrderData.map((order) => (
+                  <tr key={order.id} className="hover:backdrop-blur-2xl">
+                    <td className={styles.tdata}>{order.id}</td>
+                    <td className={styles.tdata}>{order.product_type}</td>
+                    <td className={styles.tdata}>{order.product_name}</td>
+                    <td className={styles.tdata}>{order.quality}</td>
+                    <td className={styles.tdata}>{order.quantity}</td>
+                    <td className={styles.tdata}>{order.price}</td>
+                    <td className={styles.tdata}>
+                      <button
+                        type="button"
+                        className="text-sm leading-2 sm:text-xl font-bold sm:leading-6 bg-blue-gradient text-white cancle-button px-1 py-1 sm:px-3 sm:py-2 rounded-md shadow-sm ring-1 ring-inset ring-gray-300"
+                        onClick={deleteItem}
+                      >
+                        Details
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </TableScrollbar>
         </div>
       </div>
     </div>

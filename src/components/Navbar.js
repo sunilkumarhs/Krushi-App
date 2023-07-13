@@ -19,7 +19,7 @@ const Navbar = () => {
         <li
           className={`font-poppins font-normal cursor-pointer text-[16px] mr-3 py-3 px-5 text-white nav-links nav-link`}
         >
-          <Link to="/FarmerSection">Trade</Link>
+          <Link to="/BuyerSection">Trade</Link>
         </li>
         {navLinks.map((nav) => (
           <li

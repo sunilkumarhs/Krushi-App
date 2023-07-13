@@ -195,6 +195,20 @@
     #33bbcf 90.29%
   );
 }
+.add-button:hover {
+  background: linear-gradient(
+    157.81deg,
+    #7dc9a3 -43.27%,
+    #46ce91 -21.24%,
+    #41bb74 12.19%,
+    #2eac5e 29.82%,
+    #26c12b 51.94%,
+    #2a7d06 90.29%
+  );
+}
+.cancle-button:hover {
+  background: rgb(206, 17, 17);
+}
 
 .blue__gradient {
   background: linear-gradient(180deg, rgba(188, 165, 255, 0) 0%, #214d76 100%);
