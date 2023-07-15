@@ -1,86 +1,46 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../style";
 import BNavBar from "./BNavBar";
 import trading from "../videos/trading.mp4";
 import { prdSchema } from "../Schemas";
 import { useFormik } from "formik";
 import TableScrollbar from "react-table-scrollbar";
-
-const onSubmit = async (values, actions) => {
-  console.log(values);
-  console.log(actions);
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-  actions.resetForm();
-};
-
-const recentOrderData = [
-  {
-    id: "1",
-    product_type: "Vegitable",
-    product_name: "Tamato",
-    quality: "A+",
-    quantity: "30",
-    price: "2000",
-  },
-  {
-    id: "2",
-    product_type: "Vegitable",
-    product_name: "Carrot",
-    quality: "A",
-    quantity: "50",
-    price: "900",
-  },
-  {
-    id: "3",
-    product_type: "Fruits",
-    product_name: "Mango",
-    quality: "A+",
-    quantity: "80",
-    price: "850",
-  },
-  {
-    id: "4",
-    product_type: "Dairy Products",
-    product_name: "Milk",
-    quality: "A+",
-    quantity: "20",
-    price: "60",
-  },
-  {
-    id: "5",
-    product_type: "Spices",
-    product_name: "Chilli",
-    quality: "B+",
-    quantity: "60",
-    price: "500",
-  },
-  {
-    id: "6",
-    product_type: "Vegitable",
-    product_name: "Tamato",
-    quality: "B",
-    quantity: "40",
-    price: "1200",
-  },
-  {
-    id: "7",
-    product_type: "Vegitable",
-    product_name: "Tamato",
-    quality: "B",
-    quantity: "40",
-    price: "1200",
-  },
-  {
-    id: "8",
-    product_type: "Vegitable",
-    product_name: "Tamato",
-    quality: "B",
-    quantity: "40",
-    price: "1200",
-  },
-];
+import { db, auth } from "../firebase";
+import {
+  collection,
+  getDocs,
+  doc,
+  addDoc,
+  deleteDoc,
+} from "firebase/firestore";
 
 const FarmerSection = () => {
+  const [products, setProducts] = useState([]);
+  const [product, setProduct] = useState([]);
+  const user = auth?.currentUser?.email;
+  const productCollectionRef = collection(db, "agricultureProducts");
+
+  const getProducts = async () => {
+    const data = await getDocs(productCollectionRef);
+    setProducts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  };
+
+  const getPrd = async () => {
+    setProduct(
+      products?.filter((item) =>
+        Object.values(item).join("").toLowerCase().includes(user.toLowerCase())
+      )
+    );
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
+  useEffect(() => {
+    getPrd();
+  }, [user, products]);
+
   const {
     values,
     errors,
@@ -89,6 +49,7 @@ const FarmerSection = () => {
     handleBlur,
     handleChange,
     handleSubmit,
+    handleReset,
   } = useFormik({
     initialValues: {
       pType: "",
@@ -98,13 +59,27 @@ const FarmerSection = () => {
       qtyRs: "",
     },
     validationSchema: prdSchema,
-    onSubmit,
+    onSubmit: async (values, actions) => {
+      await addDoc(productCollectionRef, {
+        UserID: auth?.currentUser?.email,
+        ProductType: values.pType,
+        ProductName: values.pName,
+        QualityGrade: values.qGrade,
+        Quantity: values.qty,
+        Price: values.qtyRs,
+      });
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      actions.resetForm();
+      getProducts();
+      getPrd();
+    },
   });
-
-  const handleCancle = () => {
-    window.location.reload(false);
+  const deleteItem = async (id) => {
+    const prod = doc(db, "agricultureProducts", id);
+    await deleteDoc(prod);
+    getProducts();
+    getPrd();
   };
-  const deleteItem = () => {};
 
   return (
     <div className="w-full overflow-hidden">
@@ -392,9 +367,9 @@ const FarmerSection = () => {
                         onBlur={handleBlur}
                       >
                         <option value="">choose...</option>
-                        <option value="A+">A+</option>
-                        <option value="A">A</option>
-                        <option value="B+">B+</option>
+                        <option value="A-Grade">A-Grade</option>
+                        <option value="B-Grade">B-Grade</option>
+                        <option value="C-Grade">C-Grade</option>
                       </select>
                       {errors.qGrade && touched.qGrade && (
                         <p className={styles.error}>{errors.qGrade}</p>
@@ -470,7 +445,7 @@ const FarmerSection = () => {
                 <button
                   type="button"
                   className="text-l leading-2 sm:text-xl font-bold sm:leading-6 bg-blue-gradient text-white cancle-button px-1 py-1 sm:px-3 sm:py-2 rounded-md shadow-sm ring-1 ring-inset ring-gray-300"
-                  onClick={handleCancle}
+                  onClick={handleReset}
                 >
                   Cancel
                 </button>
@@ -506,21 +481,23 @@ const FarmerSection = () => {
                 </tr>
               </thead>
               <tbody>
-                {recentOrderData.map((order) => (
-                  <tr key={order.id} className="hover:backdrop-blur-2xl">
-                    <td className={styles.tdata}>{order.id}</td>
-                    <td className={styles.tdata}>{order.product_type}</td>
-                    <td className={styles.tdata}>{order.product_name}</td>
-                    <td className={styles.tdata}>{order.quality}</td>
-                    <td className={styles.tdata}>{order.quantity}</td>
-                    <td className={styles.tdata}>{order.price}</td>
+                {product.map((prd) => (
+                  <tr key={prd.id} className="hover:backdrop-blur-2xl">
+                    <td className={styles.tdata}>1</td>
+                    <td className={styles.tdata}>{prd.ProductType}</td>
+                    <td className={styles.tdata}>{prd.ProductName}</td>
+                    <td className={styles.tdata}>{prd.QualityGrade}</td>
+                    <td className={styles.tdata}>{prd.Quantity}</td>
+                    <td className={styles.tdata}>{prd.Price}</td>
                     <td className={styles.tdata}>
                       <button
                         type="button"
                         className="text-sm leading-2 sm:text-xl font-bold sm:leading-6 bg-blue-gradient text-white cancle-button px-1 py-1 sm:px-3 sm:py-2 rounded-md shadow-sm ring-1 ring-inset ring-gray-300"
-                        onClick={deleteItem}
+                        onClick={() => {
+                          deleteItem(prd.id);
+                        }}
                       >
-                        Details
+                        Delete
                       </button>
                     </td>
                   </tr>

@@ -2,6 +2,7 @@ import React from "react";
 import { features } from "../constants";
 import styles, { layout } from "../style";
 import Button from "./Button";
+import { auth } from "../firebase";
 
 const FeatureCard = ({ icon, title, content, index }) => (
   <div
@@ -37,7 +38,7 @@ const Business = () => {
           With the right decision, you can improve your financial life by
           farming , earning valid income and saving food insecurity.
         </p>
-        <Button styles={`mt-3 sm:mt-10`} />
+        {auth.currentUser ? <p></p> : <Button styles={`mt-3 sm:mt-10`} />}
       </div>
       <div className={`${layout.sectionImg} flex-col`}>
         {features.map((feature, index) => (

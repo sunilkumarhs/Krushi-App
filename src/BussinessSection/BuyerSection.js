@@ -1,83 +1,66 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../style";
 import trading from "../videos/trading.mp4";
-import { prdSchema } from "../Schemas";
 import { useFormik } from "formik";
 import TableScrollbar from "react-table-scrollbar";
-import { profileLogo } from "../assets";
 import BNavBarT from "./BNavBarT";
-
-const onSubmit = async (values, actions) => {
-  console.log(values);
-  console.log(actions);
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-};
-
-const recentOrderData = [
-  {
-    id: "1",
-    product_type: "Vegitable",
-    product_name: "Tamato",
-    quality: "A+",
-    quantity: "30",
-    price: "2000",
-  },
-  {
-    id: "2",
-    product_type: "Vegitable",
-    product_name: "Carrot",
-    quality: "A",
-    quantity: "50",
-    price: "900",
-  },
-  {
-    id: "3",
-    product_type: "Fruits",
-    product_name: "Mango",
-    quality: "A+",
-    quantity: "80",
-    price: "850",
-  },
-  {
-    id: "4",
-    product_type: "Dairy Products",
-    product_name: "Milk",
-    quality: "A+",
-    quantity: "20",
-    price: "60",
-  },
-  {
-    id: "5",
-    product_type: "Spices",
-    product_name: "Chilli",
-    quality: "B+",
-    quantity: "60",
-    price: "500",
-  },
-  {
-    id: "6",
-    product_type: "Vegitable",
-    product_name: "Tamato",
-    quality: "B",
-    quantity: "40",
-    price: "1200",
-  },
-];
+import { db } from "../firebase";
+import { collection, getDocs } from "firebase/firestore";
 
 const BuyerSection = () => {
   const [model, setModel] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [product, setProduct] = useState([]);
+  const [farmers, setFarmers] = useState([]);
+  const [farmer, setFarmer] = useState([]);
+  const [seller, setSeller] = useState("");
+  const [pricePrd, setPricePrd] = useState([]);
+  // const user = auth?.currentUser?.email;
+  const farmerCollectionRef = collection(db, "farmers");
+  const productCollectionRef = collection(db, "agricultureProducts");
+
+  useEffect(() => {
+    const getFarmers = async () => {
+      const data = await getDocs(farmerCollectionRef);
+      setFarmers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+    getFarmers();
+  }, []);
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
+  const getProducts = async () => {
+    const data = await getDocs(productCollectionRef);
+    setProducts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+  };
+
+  const getPrd = async (type, name, grade, qty, qtyRs) => {
+    setProduct(
+      products
+        ?.filter((item) =>
+          Object.values(item)
+            .join("")
+            .toLowerCase()
+            .includes(type?.toLowerCase() && name?.toLowerCase())
+        )
+        .filter((item) => Object.values(item).join("").includes(grade))
+        .filter((item) => Object.values(item).join("").includes(qty))
+        .filter((item) => Object.values(item).join("").includes(qtyRs))
+    );
+  };
 
   const toProfile = () => {
     setModel(!model);
   };
   const {
     values,
-    errors,
-    touched,
     isSubmitting,
     handleBlur,
     handleChange,
     handleSubmit,
+    handleReset,
   } = useFormik({
     initialValues: {
       pType: "",
@@ -86,13 +69,39 @@ const BuyerSection = () => {
       qty: "",
       qtyRs: "",
     },
-    validationSchema: prdSchema,
-    onSubmit,
+    onSubmit: async (values) => {
+      getProducts();
+      getPrd(
+        values.pType,
+        values.pName,
+        values.qGrade,
+        values.qty,
+        values.qtyRs
+      );
+    },
+    onReset: async () => {
+      getPrd();
+    },
   });
 
-  const handleClear = () => {
-    window.location.reload(false);
+  const handleOwner = async (UserID) => {
+    setSeller(UserID);
+    setModel(true);
   };
+
+  useEffect(() => {
+    const getFarm = async () => {
+      setFarmer(
+        farmers.filter((item) =>
+          Object.values(item)
+            .join("")
+            .toLowerCase()
+            .includes(seller.toLowerCase())
+        )
+      );
+    };
+    getFarm();
+  }, [seller, farmers]);
 
   return (
     <>
@@ -155,9 +164,7 @@ const BuyerSection = () => {
                         <select
                           id="pType"
                           name="pType"
-                          className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:max-w-xs sm:text-xl sm:leading-8 ${
-                            errors.pType ? "input_Error" : ""
-                          }`}
+                          className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:max-w-xs sm:text-xl sm:leading-8`}
                           value={values.pType}
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -170,9 +177,6 @@ const BuyerSection = () => {
                           <option value="DairyProducts">DairyProducts</option>
                           <option value="Spices">Spices</option>
                         </select>
-                        {errors.pType && touched.pType && (
-                          <p className={styles.error}>{errors.pType}</p>
-                        )}
                       </div>
                     </div>
 
@@ -188,9 +192,7 @@ const BuyerSection = () => {
                           <select
                             id="pName"
                             name="pName"
-                            className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:max-w-xs sm:text-xl sm:leading-8 ${
-                              errors.pType ? "input_Error" : ""
-                            }`}
+                            className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:max-w-xs sm:text-xl sm:leading-8`}
                             value={values.pName}
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -218,9 +220,7 @@ const BuyerSection = () => {
                           <select
                             id="pName"
                             name="pName"
-                            className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:max-w-xs sm:text-xl sm:leading-8 ${
-                              errors.pType ? "input_Error" : ""
-                            }`}
+                            className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:max-w-xs sm:text-xl sm:leading-8`}
                             value={values.pName}
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -246,9 +246,7 @@ const BuyerSection = () => {
                           <select
                             id="pName"
                             name="pName"
-                            className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:max-w-xs sm:text-xl sm:leading-8 ${
-                              errors.pType ? "input_Error" : ""
-                            }`}
+                            className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:max-w-xs sm:text-xl sm:leading-8`}
                             value={values.pName}
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -281,9 +279,7 @@ const BuyerSection = () => {
                           <select
                             id="pName"
                             name="pName"
-                            className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:max-w-xs sm:text-xl sm:leading-8 ${
-                              errors.pType ? "input_Error" : ""
-                            }`}
+                            className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:max-w-xs sm:text-xl sm:leading-8`}
                             value={values.pName}
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -310,9 +306,7 @@ const BuyerSection = () => {
                           <select
                             id="pName"
                             name="pName"
-                            className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:max-w-xs sm:text-xl sm:leading-8 ${
-                              errors.pType ? "input_Error" : ""
-                            }`}
+                            className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:max-w-xs sm:text-xl sm:leading-8`}
                             value={values.pName}
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -327,9 +321,7 @@ const BuyerSection = () => {
                           <select
                             id="pName"
                             name="pName"
-                            className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:max-w-xs sm:text-xl sm:leading-8 ${
-                              errors.pType ? "input_Error" : ""
-                            }`}
+                            className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:max-w-xs sm:text-xl sm:leading-8`}
                             value={values.pName}
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -362,9 +354,6 @@ const BuyerSection = () => {
                             disabled
                           />
                         )}
-                        {errors.pName && touched.pName && (
-                          <p className={styles.error}>{errors.pName}</p>
-                        )}
                       </div>
                     </div>
 
@@ -379,21 +368,16 @@ const BuyerSection = () => {
                         <select
                           id="qGrade"
                           name="qGrade"
-                          className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:max-w-xs sm:text-xl sm:leading-8 ${
-                            errors.pType ? "input_Error" : ""
-                          }`}
+                          className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:max-w-xs sm:text-xl sm:leading-8`}
                           value={values.qGrade}
                           onChange={handleChange}
                           onBlur={handleBlur}
                         >
                           <option value="">choose...</option>
-                          <option value="A+">A+</option>
-                          <option value="A">A</option>
-                          <option value="B+">B+</option>
+                          <option value="A-Grade">A-grade</option>
+                          <option value="B-Grade">B-Grade</option>
+                          <option value="C-Grade">C-Grade</option>
                         </select>
-                        {errors.qGrade && touched.qGrade && (
-                          <p className={styles.error}>{errors.qGrade}</p>
-                        )}
                       </div>
                     </div>
 
@@ -415,16 +399,11 @@ const BuyerSection = () => {
                           type="number"
                           name="qty"
                           id="qty"
-                          className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:text-xl sm:leading-8 ${
-                            errors.pType ? "input_Error" : ""
-                          }`}
+                          className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:text-xl sm:leading-8`}
                           value={values.qty}
                           onChange={handleChange}
                           onBlur={handleBlur}
                         />
-                        {errors.qty && touched.qty && (
-                          <p className={styles.error}>{errors.qty}</p>
-                        )}
                       </div>
                     </div>
 
@@ -446,16 +425,11 @@ const BuyerSection = () => {
                           type="number"
                           name="qtyRs"
                           id="qtyRs"
-                          className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:text-xl sm:leading-8 ${
-                            errors.pType ? "input_Error" : ""
-                          }`}
+                          className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:text-xl sm:leading-8`}
                           value={values.qtyRs}
                           onChange={handleChange}
                           onBlur={handleBlur}
                         />
-                        {errors.qtyRs && touched.qtyRs && (
-                          <p className={styles.error}>{errors.qtyRs}</p>
-                        )}
                       </div>
                     </div>
                   </div>
@@ -465,7 +439,7 @@ const BuyerSection = () => {
                   <button
                     type="button"
                     className="text-l leading-2 sm:text-xl font-bold sm:leading-6 bg-blue-gradient text-white cancle-button px-1 py-1 sm:px-3 sm:py-2 rounded-md shadow-sm ring-1 ring-inset ring-gray-300"
-                    onClick={handleClear}
+                    onClick={handleReset}
                   >
                     Clear
                   </button>
@@ -501,19 +475,21 @@ const BuyerSection = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {recentOrderData.map((order) => (
-                    <tr key={order.id} className="hover:backdrop-blur-2xl">
-                      <td className={styles.tdata}>{order.id}</td>
-                      <td className={styles.tdata}>{order.product_type}</td>
-                      <td className={styles.tdata}>{order.product_name}</td>
-                      <td className={styles.tdata}>{order.quality}</td>
-                      <td className={styles.tdata}>{order.quantity}</td>
-                      <td className={styles.tdata}>{order.price}</td>
+                  {product?.map((prd) => (
+                    <tr key={prd.id} className="hover:backdrop-blur-2xl">
+                      <td className={styles.tdata}>1</td>
+                      <td className={styles.tdata}>{prd.ProductType}</td>
+                      <td className={styles.tdata}>{prd.ProductName}</td>
+                      <td className={styles.tdata}>{prd.QualityGrade}</td>
+                      <td className={styles.tdata}>{prd.Quantity}</td>
+                      <td className={styles.tdata}>{prd.Price}</td>
                       <td className={styles.tdata}>
                         <button
                           type="button"
                           className="text-sm leading-2 sm:text-xl font-bold sm:leading-6 bg-blue-gradient text-white cancle-button px-1 py-1 sm:px-3 sm:py-2 rounded-md shadow-sm ring-1 ring-inset ring-gray-300"
-                          onClick={toProfile}
+                          onClick={() => {
+                            handleOwner(prd.UserID);
+                          }}
                         >
                           Details
                         </button>
@@ -537,7 +513,7 @@ const BuyerSection = () => {
 
           <form className="fixed inset-0 z-10 overflow-y-auto">
             <div className="flex min-h-full items-end justify-center p-10 text-center sm:items-center sm:p-0">
-              <div className="back-sinup relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all max-w-[600px] min-w-[250px] sm:my-4 sm:w-full sm:max-w-lg sm:max-w-[800px] sm:min-w-[300px]">
+              <div className="back-sinup relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all max-w-[600px] min-w-[250px] sm:my-4 sm:w-full sm:max-w-4xl sm:max-w-[800px] sm:min-w-[300px]">
                 <div className=" px-3 pb-4 pt-5 sm:p-6 sm:pb-2">
                   <div className="sm:flex sm:items-start">
                     <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
@@ -553,53 +529,10 @@ const BuyerSection = () => {
                       </svg>
                     </span>
                     <div className="mt-2  sm:mt-0 sm:text-left">
-                      <h3 className="text-xl sm:text-3xl font-bold text-white">
-                        Profile
-                      </h3>
-                      <div className="col-span-full">
-                        <div className="mt-0 sm:mt-2 flex items-center gap-x-6 sm:gap-x-7">
-                          <img
-                            src={profileLogo}
-                            alt="profile"
-                            className="img-display-after sm:h-[100px] sm:w-[100px]"
-                            aria-hidden="true"
-                          />
-                        </div>
-                      </div>
-                      <div className="border-b border-gray-900/10 mt-2 sm:mt-4 grid grid-cols-1 gap-x-6 gap-y-2 sm:gap-y-8 sm:grid-cols-6">
-                        <div className="sm:col-span-4 mb-4">
-                          <label
-                            htmlFor="username"
-                            className="block text-l sm:text-xl font-medium leading-2 sm:leading-6 text-white"
-                          >
-                            UserId
-                          </label>
-                          <div className=" relative mt-0 sm:mt-1">
-                            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center bg-gray-200 rounded-md ">
-                              <span className=" text-gray-500 sm:text-xl sm:leading-10  px-2 ">
-                                @
-                              </span>
-                            </div>
-                            <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                              <input
-                                id="username"
-                                placeholder="userid"
-                                className="block flex-1 border-0 bg-transparent py-1 sm:py-1.5 pl-1 
-                                text-sm
-                                placeholder:px-10
-                                placeholder:text-sm sm:text-xl
-                                placeholder:text-black
-                                leading-2 sm:leading-8 font-bold"
-                                disabled
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                       {/* info */}
                       <div className="border-b border-gray-900/10 pb-1 sm:pb-8">
                         <h2 className="text-xl font-bold leading-2 sm:leading-8 text-white sm:text-4xl mt-3 sm:mt-5">
-                          Personal Information
+                          Farmer Information
                         </h2>
                         <div className="col-span-2 sm:col-span-3">
                           <div className="mt-2 sm:mt-8">
@@ -608,7 +541,7 @@ const BuyerSection = () => {
                               name="agriType"
                               className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:max-w-xs sm:text-xl sm:leading-6`}
                               disabled
-                              // value={values.agriType}
+                              value={farmer[0]?.AgricultureType}
                             />
                           </div>
                         </div>
@@ -627,6 +560,7 @@ const BuyerSection = () => {
                                 name="firstName"
                                 id="firstName"
                                 className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:text-xl sm:leading-8`}
+                                value={farmer[0]?.FirstName}
                                 disabled
                               />
                             </div>
@@ -645,6 +579,7 @@ const BuyerSection = () => {
                                 name="lastName"
                                 id="lastName"
                                 className={`block w-full rounded-md border px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:text-xl sm:leading-8`}
+                                value={farmer[0]?.LastName}
                                 disabled
                               />
                             </div>
@@ -662,6 +597,7 @@ const BuyerSection = () => {
                                 name="streetAddress"
                                 id="streetAddress"
                                 className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:text-xl sm:leading-8`}
+                                value={farmer[0]?.Address}
                                 disabled
                               />
                             </div>
@@ -680,6 +616,7 @@ const BuyerSection = () => {
                                 name="country"
                                 id="country"
                                 className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:text-xl sm:leading-8`}
+                                value={farmer[0]?.Country}
                                 disabled
                               />
                             </div>
@@ -698,6 +635,7 @@ const BuyerSection = () => {
                                 name="city"
                                 id="city"
                                 className={`block w-full rounded-md borderpx-1 py-1 sm:px-1.5 sm:py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:text-xl sm:leading-8`}
+                                value={farmer[0]?.city}
                                 disabled
                               />
                             </div>
@@ -716,6 +654,7 @@ const BuyerSection = () => {
                                 name="region"
                                 id="region"
                                 className={`block w-full rounded-md borderpx-1 py-1 sm:px-1.5 sm:py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:text-xl sm:leading-8`}
+                                value={farmer[0]?.State}
                                 disabled
                               />
                             </div>
@@ -734,6 +673,7 @@ const BuyerSection = () => {
                                 name="district"
                                 id="district"
                                 className={`block w-full rounded-md borderpx-1 py-1 sm:px-1.5 sm:py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:text-xl sm:leading-8`}
+                                value={farmer[0]?.District}
                                 disabled
                               />
                             </div>
@@ -752,6 +692,7 @@ const BuyerSection = () => {
                                 name="postalCode"
                                 id="postalCode"
                                 className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:text-xl sm:leading-8`}
+                                value={farmer[0]?.PinCode}
                                 disabled
                               />
                             </div>
@@ -770,29 +711,11 @@ const BuyerSection = () => {
                                 name="mobileNum"
                                 id="mobileNum"
                                 className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:text-xl sm:leading-8`}
+                                value={farmer[0]?.MobileNumber}
                                 disabled
                               />
                             </div>
                           </div>
-
-                          {/* <div className=" col-span-2 sm:col-span-1">
-                            <label
-                              htmlFor="adharNum"
-                              className="block text-l sm:text-xl font-medium leading-2 sm:leading-6 text-white"
-                            >
-                              Adhar Number
-                            </label>
-                            <div className="mt-0 sm:mt-2">
-                              <input
-                                type="text"
-                                name="adharNum"
-                                id="adharNum"
-                                className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 sm:py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:text-xl sm:leading-8`}
-                                disabled
-                              />
-                            </div>
-                          </div> */}
-
                           <div className=" col-span-2 sm:col-span-2">
                             <label
                               htmlFor="farmerId"
@@ -811,6 +734,7 @@ const BuyerSection = () => {
                                 name="farmerId"
                                 id="farmerId"
                                 className={`block w-full rounded-md border px-10 py-1 sm:py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:text-xl sm:leading-8`}
+                                value={farmer[0]?.FarmerId}
                                 disabled
                               />
                             </div>

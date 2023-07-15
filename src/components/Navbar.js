@@ -1,11 +1,55 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { close, logo, menu } from "../assets";
 import { navLinks } from "../constants";
 import { Buttons } from "./Buttons";
 import { Link } from "react-router-dom";
+import { auth } from "../firebase";
+import { signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
 
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
+  const [farmers, setFarmers] = useState([]);
+  const [farmer, setFarmer] = useState([]);
+  const navigate = useNavigate();
+  const logOut = async () => {
+    await signOut(auth);
+    navigate("/");
+  };
+  const user = auth?.currentUser?.email;
+  const farmerCollectionref = collection(db, "farmers");
+
+  useEffect(() => {
+    const getfarmers = async () => {
+      const data = await getDocs(farmerCollectionref);
+      setFarmers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+    getfarmers();
+  }, []);
+
+  useEffect(() => {
+    const getFarm = async () => {
+      setFarmer(
+        farmers.filter((item) =>
+          Object.values(item)
+            .join("")
+            .toLowerCase()
+            .includes(user?.toLowerCase())
+        )
+      );
+    };
+    getFarm();
+  }, [user, farmers]);
+
+  const toBussiness = () => {
+    if (farmer[0]?.UserType === "farmer") {
+      navigate("/FarmerSection");
+    } else {
+      navigate("/BuyerSection");
+    }
+  };
   return (
     <nav className="w-full flex  justify-between items-center navbar">
       <Link to="/">
@@ -19,7 +63,13 @@ const Navbar = () => {
         <li
           className={`font-poppins font-normal cursor-pointer text-[16px] mr-3 py-3 px-5 text-white nav-links nav-link`}
         >
-          <Link to="/BuyerSection">Trade</Link>
+          {auth.currentUser ? (
+            <button type="button" onClick={toBussiness}>
+              Trade
+            </button>
+          ) : (
+            <p></p>
+          )}
         </li>
         {navLinks.map((nav) => (
           <li
@@ -30,7 +80,11 @@ const Navbar = () => {
           </li>
         ))}
         <li className="ml-2">
-          <Buttons buttonStyle="btn--outline">SIGN IN</Buttons>
+          {auth.currentUser ? (
+            <Buttons buttonStyle="btn--outline">SIGN OUT</Buttons>
+          ) : (
+            <Buttons buttonStyle="btn--outline">SIGN IN</Buttons>
+          )}
         </li>
       </ul>
       <div className="sm:hidden flex flex-1 justify-end items-center">
@@ -49,7 +103,13 @@ const Navbar = () => {
             <li
               className={`font-poppins font-normal cursor-pointer text-[16px] mb-0 text-white px-4 py-3 nav-link`}
             >
-              <Link to="/FarmerSection">Trade</Link>
+              {auth.currentUser ? (
+                <button type="button" onClick={toBussiness}>
+                  Trade
+                </button>
+              ) : (
+                <p></p>
+              )}
             </li>
             {navLinks.map((nav) => (
               <li
@@ -62,7 +122,13 @@ const Navbar = () => {
             <li
               className={`font-poppins font-normal cursor-pointer text-[16px] text-white px-4 py-3 nav-link`}
             >
-              <Link to="/Login">SignIn</Link>
+              {auth.currentUser ? (
+                <button type="button" onClick={logOut}>
+                  SignOut
+                </button>
+              ) : (
+                <Link to="/Login">SignIn</Link>
+              )}
             </li>
           </ul>
         </div>

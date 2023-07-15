@@ -13,6 +13,7 @@ import {
   Hero,
 } from "./components";
 import bVedio from "./videos/video-2.mp4";
+import { auth } from "./firebase";
 const MainPage = () => (
   <div className="w-full overflow-hidden">
     <div className={`bg-primary ${styles.paddingX} ${styles.flexCenter}`}>
@@ -45,7 +46,8 @@ const MainPage = () => (
     <div className={`bg-primary ${styles.paddingX} ${styles.flexStart}`}>
       <div className={`${styles.boxWidth}`}>
         <Stats /> <Business /> <Billing /> <CardDeal /> <Testimonials />
-        <Clients /> <CTA /> <Footer />
+        <Clients />
+        {auth.currentUser ? <p></p> : <CTA />} <Footer />
       </div>
     </div>
   </div>

@@ -3,16 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { buySchema } from "../Schemas";
 import styles from "../style";
-
-const onSubmit = async (values, actions) => {
-  console.log(values);
-  console.log(actions);
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-  actions.resetForm();
-};
+import { addDoc, collection } from "firebase/firestore";
+import { db, auth } from "../firebase";
+import { signOut } from "firebase/auth";
 
 const BuyRegister = () => {
   const navigate = useNavigate();
+  const buyerCollectionRef = collection(db, "buyers");
 
   const {
     values,
@@ -36,11 +33,30 @@ const BuyRegister = () => {
       cMId: "",
     },
     validationSchema: buySchema,
-    onSubmit,
+    onSubmit: async (values) => {
+      await addDoc(buyerCollectionRef, {
+        BuyerType: values.buyType,
+        UserId: auth?.currentUser?.email,
+        CompanyName: values.cName,
+        Address: values.cAddress,
+        Country: values.country,
+        city: values.city,
+        State: values.region,
+        District: values.district,
+        PinCode: values.postalCode,
+        ContactNumber: values.mobileNum,
+        CompanyMailId: values.cMId,
+      });
+      navigate("/BuyerSection");
+    },
   });
 
-  const toLogin = () => {
-    navigate("/Login");
+  const toBuyerPage = async () => {
+    if (window.confirm("You will be signed out !")) {
+      signOut(auth);
+      navigate("/Login");
+    } else {
+    }
   };
   return (
     <div className="w-full h-full p-2 sm:p-5 justify-between items-center">
@@ -77,12 +93,8 @@ const BuyRegister = () => {
                     <input
                       id="username"
                       placeholder="userid"
-                      className="block flex-1 border-0 bg-transparent py-1 sm:py-1.5 pl-1
-                      text-sm 
-                      placeholder:px-10
-                      placeholder:text-sm sm:text-xl
-                      placeholder:text-black leading-2
-                      sm:leading-8 font-bold"
+                      className="block w-full rounded-md border px-10 py-1 sm:py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:text-xl sm:leading-8"
+                      value={auth.currentUser.email}
                       disabled
                     />
                   </div>
@@ -345,7 +357,7 @@ const BuyRegister = () => {
                     type="email"
                     name="cMId"
                     id="cMId"
-                    className={`block w-full rounded-md border px-1 py-1 sm:px-1.5 px-10 sm:py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-l leading-2 sm:text-xl sm:leading-8 ${
+                    className={`block w-full rounded-md border px-10 py-1 sm:py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:text-xl sm:leading-8 ${
                       errors.cMId ? "input_Error" : ""
                     }`}
                     value={values.cMId}
@@ -365,7 +377,7 @@ const BuyRegister = () => {
           <button
             type="button"
             className="text-l sm:text-xl font-bold leading-2 sm:leading-6 bg-blue-700 text-white hover:bg-red-600 px-1 py-1 sm:px-3 sm:py-2 rounded-md shadow-sm ring-1 ring-inset ring-gray-300"
-            onClick={toLogin}
+            onClick={toBuyerPage}
           >
             Cancel
           </button>

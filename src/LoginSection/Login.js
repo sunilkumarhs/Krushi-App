@@ -1,23 +1,76 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { hackerPost, logo } from "../assets";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { sinupSchema } from "../Schemas";
-
-const onSubmit = async (values, actions) => {
-  console.log(values);
-  console.log(actions);
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-  actions.resetForm();
-};
+import {
+  createUserWithEmailAndPassword,
+  signOut,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../firebase";
+import { getDocs, collection } from "firebase/firestore";
+import { db } from "../firebase";
 
 const Login = () => {
   const [modal, setModal] = useState(false);
   const [category, setCategory] = useState("");
+  const [lEmail, setLEmail] = useState("");
+  const [lPass, setLPass] = useState("");
+  const [farmers, setFarmers] = useState([]);
+  const [buyers, setBuyers] = useState([]);
+  const [buyUser, setBuyUser] = useState([]);
+  const [farmUser, setFarmUser] = useState([]);
   const navigate = useNavigate();
   const regBlock = () => {
     setModal(!modal);
   };
+  const farmerCollectionRef = collection(db, "farmers");
+  const buyerCollectionRef = collection(db, "buyers");
+
+  useEffect(() => {
+    const getFarmers = async () => {
+      const data = await getDocs(farmerCollectionRef);
+      setFarmers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+    getFarmers();
+  }, []);
+
+  useEffect(() => {
+    const getBuyers = async () => {
+      const data = await getDocs(buyerCollectionRef);
+      setBuyers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+    getBuyers();
+  }, []);
+
+  useEffect(() => {
+    const getBuy = async () => {
+      setBuyUser(
+        buyers.filter((item) =>
+          Object.values(item)
+            .join("")
+            .toLowerCase()
+            .includes(lEmail.toLowerCase())
+        )
+      );
+    };
+    getBuy();
+  }, [lEmail, buyers]);
+
+  useEffect(() => {
+    const getFarm = async () => {
+      setFarmUser(
+        farmers.filter((item) =>
+          Object.values(item)
+            .join("")
+            .toLowerCase()
+            .includes(lEmail.toLowerCase())
+        )
+      );
+    };
+    getFarm();
+  }, [lEmail, farmers]);
 
   const {
     values,
@@ -34,15 +87,39 @@ const Login = () => {
       rcpass: "",
     },
     validationSchema: sinupSchema,
-    onSubmit,
+    onSubmit: async (values) => {
+      try {
+        await createUserWithEmailAndPassword(auth, values.remail, values.rpass);
+        await signOut(auth);
+        setModal(!modal);
+      } catch (error) {
+        alert(error.message);
+      }
+    },
   });
 
-  const toRegister = async () => {
+  const toLogin = async () => {
     if (category.length !== 0) {
-      if (category.includes("Farmer")) {
-        navigate("/FarmRegister");
-      } else {
-        navigate("/BuyRegister");
+      try {
+        await signInWithEmailAndPassword(auth, lEmail, lPass);
+
+        if (category.includes("Farmer")) {
+          if (farmUser.length !== 0) {
+            navigate("/FarmerSection");
+          } else {
+            navigate("/FarmRegister");
+          }
+        } else {
+          navigate("/BuyRegister");
+          if (buyUser.length !== 0) {
+            navigate("/BuyerSection");
+          } else {
+            navigate("/BuyRegister");
+          }
+        }
+      } catch (error) {
+        console.log(error.message);
+        alert(error.message);
       }
     } else {
       alert("Select the signIn type !");
@@ -131,6 +208,8 @@ const Login = () => {
                 name="lemail"
                 placeholder="Email"
                 className={`w-full text-white py-2 my-2 text-xl bg-transparent border-b border-black outline-none focus:outline-none`}
+                value={lEmail}
+                onChange={(e) => setLEmail(e.target.value)}
               />
               <input
                 type="password"
@@ -138,6 +217,8 @@ const Login = () => {
                 name="lpass"
                 placeholder="Password"
                 className={`w-full text-white py-2 my-2 bg-transparent border-b text-xl border-black outline-none focus:outline-none`}
+                value={lPass}
+                onChange={(e) => setLPass(e.target.value)}
               />
             </div>
             <div className="w-full flex items-center justify-between">
@@ -152,7 +233,7 @@ const Login = () => {
             <div className="w-full flex flex-col my-4">
               <button
                 type="submit"
-                onClick={toRegister}
+                onClick={toLogin}
                 className=" cursor-pointer button-link w-full text-white  font-bold rounded-md p-4 text-center flex items-center justify-center text-l sm:text-xl"
               >
                 Sign In

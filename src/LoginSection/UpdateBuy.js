@@ -1,21 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { buySchema } from "../Schemas";
 import styles from "../style";
-
-const onSubmit = async (values, actions) => {
-  console.log(values);
-  console.log(actions);
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-  actions.resetForm();
-};
+import { collection, updateDoc, getDocs, doc } from "firebase/firestore";
+import { db, auth } from "../firebase";
 
 const UpdateBuy = () => {
   const navigate = useNavigate();
 
   const [ctNum, setCtNum] = useState(false);
   const [coMId, setCoMId] = useState(false);
+  const [buyers, setBuyers] = useState([]);
+  const [buyer, setBuyer] = useState([]);
+  const buyerCollectionRef = collection(db, "buyers");
+  const user = auth?.currentUser?.email;
+
+  useEffect(() => {
+    const getbuyers = async () => {
+      const data = await getDocs(buyerCollectionRef);
+      setBuyers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+    getbuyers();
+  }, []);
+
+  useEffect(() => {
+    const getBuy = async () => {
+      setBuyer(
+        buyers.filter((item) =>
+          Object.values(item)
+            .join("")
+            .toLowerCase()
+            .includes(user.toLowerCase())
+        )
+      );
+    };
+    getBuy();
+  }, [user, buyers]);
+
+  let buyUser = null;
+  {
+    buyer.map((buy) => (buyUser = doc(db, "buyers", buy.id)));
+  }
 
   const {
     values,
@@ -26,20 +52,36 @@ const UpdateBuy = () => {
     handleChange,
     handleSubmit,
   } = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      buyType: "wholesaler",
-      cName: "cetrox",
-      cAddress: "WhiteField",
-      country: "India",
-      city: "Bangalore",
-      region: "Karnataka",
-      district: "Bengaluru",
-      postalCode: "501030",
-      mobileNum: "9845865343",
-      cMId: "cetroxCo@gmail.com",
+      buyType: buyer[0]?.BuyerType,
+      cName: buyer[0]?.CompanyName,
+      cAddress: buyer[0]?.Address,
+      country: buyer[0]?.Country,
+      city: buyer[0]?.city,
+      region: buyer[0]?.State,
+      district: buyer[0]?.District,
+      postalCode: buyer[0]?.PinCode,
+      mobileNum: buyer[0]?.ContactNumber,
+      cMId: buyer[0]?.CompanyMailId,
     },
     validationSchema: buySchema,
-    onSubmit,
+    onSubmit: async (values) => {
+      await updateDoc(buyUser, {
+        BuyerType: values.buyType,
+        UserId: auth?.currentUser?.email,
+        CompanyName: values.cName,
+        Address: values.cAddress,
+        Country: values.country,
+        city: values.city,
+        State: values.region,
+        District: values.district,
+        PinCode: values.postalCode,
+        ContactNumber: values.mobileNum,
+        CompanyMailId: values.cMId,
+      });
+      navigate("/BuyerSection");
+    },
   });
 
   const buyerCtNum = () => {
@@ -87,11 +129,8 @@ const UpdateBuy = () => {
                     <input
                       id="username"
                       placeholder="userid"
-                      className="block flex-1 border-0 bg-transparent py-1 sm:py-1.5 pl-1 text-sm 
-                      placeholder:px-10
-                      placeholder:text-sm sm:text-xl
-                      placeholder:text-black leading-2
-                      sm:leading-8 font-bold"
+                      className="block w-full rounded-md border py-1 px-10 sm:py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:text-xl sm:leading-8"
+                      value={auth.currentUser.email}
                       disabled
                     />
                   </div>
@@ -107,6 +146,8 @@ const UpdateBuy = () => {
             <p className="mt-0 sm:mt-1 text-sm sm:text-l leading-2 sm:leading-6 text-white">
               Use a permanent address where you can receive mail.
             </p>
+            {/* {buyer.map((buy) => (
+              <div key={buy.id}> */}
             <div className="sm:col-span-3">
               <div className="mt-3 sm:mt-5">
                 <input
@@ -331,6 +372,8 @@ const UpdateBuy = () => {
                 )}
               </div>
             </div>
+            {/* </div>
+            ))} */}
           </div>
         </div>
 

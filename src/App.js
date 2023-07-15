@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainPage from "./MainPage";
 // import SoilAboutUs from "./SoilTestContainer/AboutUs";
 // import SoilMethods from "./SoilTestContainer/OurMethods";
@@ -15,20 +15,32 @@ import UpdateFarm from "./LoginSection/UpdateFarm";
 import UpdateBuy from "./LoginSection/UpdateBuy";
 import FarmerSection from "./BussinessSection/FarmerSection";
 import BuyerSection from "./BussinessSection/BuyerSection";
+import { auth } from "./firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { Navbar } from "./components";
 
 const App = () => {
+  const [user, setUser] = useState();
+  onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+  });
   return (
-    <>
-      <Router>
+    <div>
+      <BrowserRouter>
+        {user ? (
+          <Routes>
+            <Route path="/FarmRegister" Component={FarmRegister} />
+            <Route path="/BuyRegister" Component={BuyRegister} />
+            <Route path="/UpdateFarm" Component={UpdateFarm} />
+            <Route path="/UpdateBuy" Component={UpdateBuy} />
+            <Route path="/FarmerSection" Component={FarmerSection} />
+            <Route path="/BuyerSection" Component={BuyerSection} />
+          </Routes>
+        ) : null}
         <Routes>
           <Route path="/" exact Component={MainPage} />
           <Route path="/Login" Component={Login} />
-          <Route path="/FarmRegister" Component={FarmRegister} />
-          <Route path="/BuyRegister" Component={BuyRegister} />
-          <Route path="/UpdateFarm" Component={UpdateFarm} />
-          <Route path="/UpdateBuy" Component={UpdateBuy} />
-          <Route path="/FarmerSection" Component={FarmerSection} />
-          <Route path="/BuyerSection" Component={BuyerSection} />
+          <Route path="/Navbar" Component={Navbar} />
           {/* <Route path="/SoilTesting" Component={SoilTesting} />
           <Route path="/SoilAboutUS" Component={SoilAboutUs} />
           <Route path="/SoilMathods" Component={SoilMethods}/>
@@ -36,8 +48,8 @@ const App = () => {
           <Route path="/SoilSample" Component={SoilSample}/>
           <Route path="/SoilReport" Component={SoilReport} /> */}
         </Routes>
-      </Router>
-    </>
+      </BrowserRouter>
+    </div>
   );
 };
 

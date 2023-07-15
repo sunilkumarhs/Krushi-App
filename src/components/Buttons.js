@@ -1,6 +1,9 @@
 import React from "react";
 import "./Buttons.css";
-import { Link } from "react-router-dom";
+import { auth } from "../firebase";
+import { signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 const STYLES = ["btn--primary", "btn--outline"];
 
@@ -13,21 +16,30 @@ export const Buttons = ({
   buttonStyle,
   buttonSize,
 }) => {
+  const navigate = useNavigate();
   const checkButtonStyle = STYLES.includes(buttonStyle)
     ? buttonStyle
     : STYLES[0];
 
   const checkButtonSize = SIZES.includes(buttonSize) ? buttonSize : SIZES[0];
+  const signButton = async () => {
+    {
+      auth.currentUser ? logOut() : navigate("/Login");
+    }
+  };
+
+  const logOut = async () => {
+    await signOut(auth);
+    navigate("/");
+  };
 
   return (
-    <Link to="/Login" className="btn-mobile">
-      <button
-        className={`btn ${checkButtonStyle} ${checkButtonSize} rounded-[20px]`}
-        onClick={onClick}
-        type={type}
-      >
-        {children}
-      </button>
-    </Link>
+    <button
+      className={`btn ${checkButtonStyle} ${checkButtonSize} rounded-[20px]`}
+      onClick={signButton}
+      type={type}
+    >
+      {children}
+    </button>
   );
 };

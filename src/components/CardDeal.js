@@ -2,6 +2,7 @@ import React from "react";
 import { tradeDeal } from "../assets";
 import styles, { layout } from "../style";
 import Button from "./Button";
+import { auth } from "../firebase";
 
 const CradDeal = () => (
   <section className={layout.section}>
@@ -14,8 +15,7 @@ const CradDeal = () => (
         Sign Up with your full details to market your products on your price
         based on quality.
       </p>
-
-      <Button styles="mt-2 sm:mt-10" />
+      {auth.currentUser ? <p></p> : <Button styles={`mt-3 sm:mt-10`} />}
     </div>
     <div className={layout.sectionImg}>
       <img src={tradeDeal} alt="card" className="w-[100%] h-[100%]" />

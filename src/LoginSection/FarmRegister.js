@@ -4,18 +4,18 @@ import { useFormik } from "formik";
 import { farmSchema } from "../Schemas";
 import { profileLogo } from "../assets";
 import styles from "../style";
-
-const onSubmit = async (values, actions) => {
-  console.log(values);
-  console.log(actions);
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-  actions.resetForm();
-};
+import { addDoc, collection } from "firebase/firestore";
+import { db, auth } from "../firebase";
+import { signOut } from "firebase/auth";
+import { storage } from "../firebase/index";
+import { uploadBytes, ref } from "firebase/storage";
 
 const FarmRegister = () => {
   const navigate = useNavigate();
   const imageRef = useRef(null);
   const [pic, setpic] = useState(null);
+
+  const farmerCollectionRef = collection(db, "farmers");
 
   const {
     values,
@@ -41,11 +41,32 @@ const FarmRegister = () => {
       farmerId: "",
     },
     validationSchema: farmSchema,
-    onSubmit,
+    onSubmit: async (values) => {
+      await addDoc(farmerCollectionRef, {
+        AgricultureType: values.agriType,
+        UserId: auth?.currentUser?.email,
+        FirstName: values.firstName,
+        LastName: values.lastName,
+        Address: values.streetAddress,
+        Country: values.country,
+        city: values.city,
+        State: values.region,
+        District: values.district,
+        PinCode: values.postalCode,
+        MobileNumber: values.mobileNum,
+        AdharNumber: values.adharNum,
+        FarmerId: values.farmerId,
+      });
+      navigate("/FarmerSection");
+    },
   });
 
-  const toLogin = () => {
-    navigate("/Login");
+  const toLogin = async () => {
+    if (window.confirm("You will be signed out !")) {
+      signOut(auth);
+      navigate("/Login");
+    } else {
+    }
   };
   const handleImage = () => {
     imageRef.current.click();
@@ -75,7 +96,13 @@ const FarmRegister = () => {
               type: "image/png",
               lastModified: Date.now(),
             });
-
+            if (file !== null) {
+              const proRef = ref(
+                storage,
+                `profilePhoto/${auth?.currentUser?.uid}`
+              );
+              uploadBytes(proRef, file).then(() => {});
+            }
             console.log(file);
             setpic(file);
           },
@@ -122,13 +149,8 @@ const FarmRegister = () => {
                   <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                     <input
                       id="username"
-                      placeholder="userid"
-                      className="block flex-1 border-0 bg-transparent py-1 sm:py-1.5 pl-1 
-                      text-sm
-                      placeholder:px-10
-                      placeholder:text-sm sm:text-xl
-                      placeholder:text-black
-                      leading-2 sm:leading-8 font-bold"
+                      className="block w-full rounded-md border px-10 py-1 sm:py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-2 sm:text-xl sm:leading-8"
+                      value={auth.currentUser.email}
                       disabled
                     />
                   </div>
