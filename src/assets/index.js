@@ -25,6 +25,9 @@ import tradeDeal from "./tradeDeal.png";
 import hackerPost from "./hackerPost.jpg";
 import bg1 from "./bg1.jpg";
 import profileLogo from "./profileLogo.png";
+import soilTestImage from "./Soil-testing-image.png";
+import soilProcedure from "./soilprocedure.png";
+import soilPlant from "./soil-with-plant.png";
 
 export {
   airbnb,
@@ -53,4 +56,7 @@ export {
   hackerPost,
   bg1,
   profileLogo,
+  soilTestImage,
+  soilProcedure,
+  soilPlant,
 };

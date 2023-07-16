@@ -60,25 +60,33 @@ const Navbar = () => {
         />
       </Link>
       <ul className="list-none sm:flex hidden justify-end items-center flex-1">
-        <li
-          className={`font-poppins font-normal cursor-pointer text-[16px] mr-3 py-3 px-5 text-white nav-links nav-link`}
-        >
-          {auth.currentUser ? (
-            <button type="button" onClick={toBussiness}>
+        {auth.currentUser ? (
+          <button type="button" onClick={toBussiness}>
+            <li
+              className={`font-poppins font-normal cursor-pointer text-[16px] mr-3 py-3 px-5 text-white nav-links nav-link`}
+            >
               Trade
-            </button>
-          ) : (
-            <p></p>
-          )}
-        </li>
+            </li>
+          </button>
+        ) : (
+          <li></li>
+        )}
         {navLinks.map((nav) => (
+          <a href={`#${nav.id}`} key={nav.id}>
+            <li
+              className={`font-poppins font-normal cursor-pointer text-[16px] mr-3 py-3 px-5 text-white nav-links nav-link`}
+            >
+              {nav.title}
+            </li>
+          </a>
+        ))}
+        <Link to="/SoilTestMainPage">
           <li
-            key={nav.id}
             className={`font-poppins font-normal cursor-pointer text-[16px] mr-3 py-3 px-5 text-white nav-links nav-link`}
           >
-            <a href={`#${nav.id}`}>{nav.title}</a>
+            Soil-Test
           </li>
-        ))}
+        </Link>
         <li className="ml-2">
           {auth.currentUser ? (
             <Buttons buttonStyle="btn--outline">SIGN OUT</Buttons>
@@ -100,36 +108,51 @@ const Navbar = () => {
           } p-6 bg-primary absolute top-10 right-0 mx-4 my-2 min-w-[140px] rounded-xl sidebar `}
         >
           <ul className="list-none flex flex-col justify-end items-center flex-1">
-            <li
-              className={`font-poppins font-normal cursor-pointer text-[16px] mb-0 text-white px-4 py-3 nav-link`}
-            >
-              {auth.currentUser ? (
-                <button type="button" onClick={toBussiness}>
+            {auth.currentUser ? (
+              <button type="button" onClick={toBussiness}>
+                <li
+                  className={`font-poppins font-normal cursor-pointer text-[16px] mb-0 text-white px-4 py-3 nav-link`}
+                >
                   Trade
-                </button>
-              ) : (
-                <p></p>
-              )}
-            </li>
+                </li>
+              </button>
+            ) : (
+              <li></li>
+            )}
+
             {navLinks.map((nav) => (
-              <li
-                key={nav.id}
-                className={`font-poppins font-normal cursor-pointer text-[16px] mb-0 text-white px-4 py-3 nav-link`}
-              >
-                <a href={`#${nav.id}`}>{nav.title}</a>
-              </li>
+              <a href={`#${nav.id}`} key={nav.id}>
+                <li
+                  className={`font-poppins font-normal cursor-pointer text-[16px] mb-0 text-white px-4 py-3 nav-link`}
+                >
+                  {nav.title}
+                </li>
+              </a>
             ))}
-            <li
-              className={`font-poppins font-normal cursor-pointer text-[16px] text-white px-4 py-3 nav-link`}
-            >
-              {auth.currentUser ? (
-                <button type="button" onClick={logOut}>
+            <Link to="/SoilTestMainPage">
+              <li
+                className={`font-poppins font-normal cursor-pointer text-[16px] py-3 px-4 text-white nav-link`}
+              >
+                Soil-Test
+              </li>
+            </Link>
+            {auth.currentUser ? (
+              <button type="button" onClick={logOut}>
+                <li
+                  className={`font-poppins font-normal cursor-pointer text-[16px] text-white px-4 py-3 nav-link`}
+                >
                   SignOut
-                </button>
-              ) : (
-                <Link to="/Login">SignIn</Link>
-              )}
-            </li>
+                </li>
+              </button>
+            ) : (
+              <Link to="/Login">
+                <li
+                  className={`font-poppins font-normal cursor-pointer text-[16px] text-white px-4 py-3 nav-link`}
+                >
+                  SignIn
+                </li>
+              </Link>
+            )}
           </ul>
         </div>
       </div>

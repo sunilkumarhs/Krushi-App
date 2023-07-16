@@ -21,8 +21,9 @@ const MainPage = () => (
         <Navbar />
       </div>
     </div>
-    <div className={`${styles.flexStart}`}>
-      <video
+    <div className={`${styles.flexStart} mainContainer`}>
+      <video src={bVedio} autoPlay loop muted />
+      {/* <video
         autoPlay
         loop
         muted
@@ -38,7 +39,7 @@ const MainPage = () => (
         }}
       >
         <source src={bVedio} type="video/mp4" />
-      </video>
+      </video> */}
       <div className={` ${styles.boxWidth}`}>
         <Hero />
       </div>

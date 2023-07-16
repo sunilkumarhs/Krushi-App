@@ -1,25 +1,15 @@
-import React from 'react';
-import SoilTestNavBar from '../NavBarContainer/SoilTestNavBar';
-import Navbar from 'react-bootstrap/Navbar';
-import { Outlet } from 'react-router-dom';
-import Container from 'react-bootstrap/Container';
+import React from "react";
 
-function Header() {
+const Header = () => {
   return (
     <div>
-       <div>
-       <Navbar collapseOnSelect expand="lg" variant="white"  bg='success'>
-        <Container fluid>
-        <a href='/SoilTestPage' style={{textDecoration:'none'}}><Navbar.Brand><b style={{color:'red', fontSize:'2rem'}}>Soil Test Laboratory</b></Navbar.Brand></a>
-        </Container>
-      </Navbar>
-      <Outlet/>
-      </div>
-      <div>
-        <SoilTestNavBar/>
-      </div>
+      <nav className="w-full flex py-3 justify-center items-center navbar">
+        <h1 className="text-xl mb-1 font-bold tracking-tight text-secondary sm:text-6xl text-center">
+          Soil Test Section
+        </h1>
+      </nav>
     </div>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

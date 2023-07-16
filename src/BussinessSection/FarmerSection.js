@@ -483,7 +483,7 @@ const FarmerSection = () => {
               <tbody>
                 {product.map((prd) => (
                   <tr key={prd.id} className="hover:backdrop-blur-2xl">
-                    <td className={styles.tdata}>1</td>
+                    <td className={styles.tdata}>{product.indexOf(prd) + 1}</td>
                     <td className={styles.tdata}>{prd.ProductType}</td>
                     <td className={styles.tdata}>{prd.ProductName}</td>
                     <td className={styles.tdata}>{prd.QualityGrade}</td>

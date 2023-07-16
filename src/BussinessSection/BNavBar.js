@@ -82,11 +82,13 @@ const BNavBar = () => {
           />
         </Link>
         <ul className="list-none sm:flex hidden justify-end items-center flex-1">
-          <li
-            className={`font-poppins font-normal cursor-pointer text-[16px] mr-3 py-3 px-5 text-white nav-links nav-link`}
-          >
-            <Link to="/">Home</Link>
-          </li>
+          <Link to="/">
+            <li
+              className={`font-poppins font-normal cursor-pointer text-[16px] mr-3 py-3 px-5 text-white nav-links nav-link`}
+            >
+              Home
+            </li>
+          </Link>
           <li
             className={`font-poppins font-normal cursor-pointer text-[16px] mr-3 py-3 px-5 text-white nav-links nav-link`}
           >
@@ -111,18 +113,20 @@ const BNavBar = () => {
             } p-6 bg-primary absolute top-10 right-0 mx-4 my-2 min-w-[140px] rounded-xl sidebar `}
           >
             <ul className="list-none flex flex-col justify-end items-center flex-1">
-              <li
-                className={`font-poppins font-normal cursor-pointer text-[16px] mb-0 text-white px-4 py-3 nav-link`}
-              >
-                <Link to="/">Home</Link>
-              </li>
-              <li
-                className={`font-poppins font-normal cursor-pointer text-[16px] mb-0 text-white px-4 py-3 nav-link`}
-              >
-                <button type="button" onClick={toProfile}>
+              <Link to="/">
+                <li
+                  className={`font-poppins font-normal cursor-pointer text-[16px] mb-0 text-white px-4 py-3 nav-link`}
+                >
+                  Home
+                </li>
+              </Link>
+              <button type="button" onClick={toProfile}>
+                <li
+                  className={`font-poppins font-normal cursor-pointer text-[16px] mb-0 text-white px-4 py-3 nav-link`}
+                >
                   Profile
-                </button>
-              </li>
+                </li>
+              </button>
               <li
                 className={`font-poppins font-normal cursor-pointer text-[16px] text-white px-4 py-3 nav-link`}
               >
