@@ -14,7 +14,6 @@ const BuyerSection = () => {
   const [farmers, setFarmers] = useState([]);
   const [farmer, setFarmer] = useState([]);
   const [seller, setSeller] = useState("");
-  const [pricePrd, setPricePrd] = useState([]);
   // const user = auth?.currentUser?.email;
   const farmerCollectionRef = collection(db, "farmers");
   const productCollectionRef = collection(db, "agricultureProducts");

@@ -28,6 +28,14 @@ import profileLogo from "./profileLogo.png";
 import soilTestImage from "./Soil-testing-image.png";
 import soilProcedure from "./soilprocedure.png";
 import soilPlant from "./soil-with-plant.png";
+import soilTestSample from "./soilTestsSmple.gif";
+import soilSample from "./soilsample.png";
+import soilInfo from "./lawnsamp.png";
+import report from "./report.png";
+import phone from "./phone.svg";
+import envelope from "./envelope.svg";
+import location from "./location-dot.svg";
+import clock from "./clock.svg";
 
 export {
   airbnb,
@@ -59,4 +67,12 @@ export {
   soilTestImage,
   soilProcedure,
   soilPlant,
+  soilTestSample,
+  soilSample,
+  soilInfo,
+  report,
+  location,
+  envelope,
+  phone,
+  clock,
 };

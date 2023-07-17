@@ -4,22 +4,46 @@ import Header from "./Header";
 import styles, { layout } from "../style";
 import { Footer } from "../components";
 import { soilProcedure } from "../assets";
+import { addressInfo } from "../constants";
+
+const AddressCard = ({ icon, title, content, index }) => (
+  <div
+    className={`flex flex-row p-1 sm:p-3 rounded-[20px] ${
+      index !== addressInfo.length - 1 ? "mb-1 sm:mb-6" : "mb-0"
+    } feature-card`}
+  >
+    <div
+      className={`w-[30px] h-[30px] sm:w-[64px] sm:h-[64px] rounded-full ${styles.flexCenter} bg-white`}
+    >
+      <img src={icon} alt="icon" className="w-[50%] h-[50%] object-contain" />
+    </div>
+    <div className="flex-1 flex flex-col ml-3">
+      <h4 className="font-poppins font-semibold text-red-600 text-l sm:text-2xl leading-0 sm:leading-8">
+        {title}
+      </h4>
+      {index === 2 ? (
+        <a
+          href="mailto:soiltest@ind.in?subject='Hello from Abstract!'&body='Just popped in to say hello'"
+          className="text-green-500 font-bold sm:text-xl text-l"
+        >
+          {content}
+        </a>
+      ) : (
+        <p className="font-poppins font-normal text-secondary text-sm  sm:text-l sm:text-[16px] leading-2 sm:leading-8 mb-1 ">
+          {content}
+        </p>
+      )}
+    </div>
+  </div>
+);
 
 function AboutUs() {
   return (
-    <div className="w-full overflow-hidden">
-      <div className={`bg-secondary ${styles.paddingX} ${styles.flexCenter}`}>
-        <div className={`${styles.boxWidth}`}>
-          <SoilTestNavbar />
-        </div>
-      </div>
+    <div className="w-full">
+      <SoilTestNavbar />
       <div className={`bg-primary ${styles.paddingX} ${styles.flexCenter}`}>
         <div className={`${styles.boxWidth}`}>
           <Header />
-        </div>
-      </div>
-      <div className={`bg-primary ${styles.paddingX} ${styles.flexStart}`}>
-        <div className={`${styles.boxWidth}`}>
           <section className={layout.section}>
             <div className={`${layout.sectionInfo} px-3 `}>
               <h2 className={styles.heading2}>About Us</h2>
@@ -41,7 +65,7 @@ function AboutUs() {
                 environment, and makes good economic sense. Our recommendations
                 are based on laboratory results, soil characteristics, crop
                 history, and crop nutrient requirements and are specific to
-                Minnesota locations and conditions.
+                Krushi Mithra locations and conditions.
               </p>
               <p
                 className={`${styles.paragraph} sm:max-w-[800px] max-w-[400px] mt-1 sm:mt-5 py-3 px-3 sm:px-0`}
@@ -53,35 +77,15 @@ function AboutUs() {
               </p>
             </div>
             <div className={`${layout.sectionImg} px-5`}>
-              <div className="bg-gray-300 p-3 sm:p-5">
+              <div className="bg-gray-500 p-3 sm:p-5 rounded-2xl">
                 <div className="mb-3 p-0 sm:p-3">
-                  <h2 className="text-xl sm:text-2xl text-primary">
+                  <h2 className="text-xl sm:text-3xl text-yellow-500 text-center">
                     <b>Contact Information</b>
                   </h2>
                 </div>
-                <h5 className=" p-3 text-sm sm:text-l text-primary">
-                  <p className="text-l sm:text-xl font-semibold">
-                    Office Hours :
-                  </p>{" "}
-                  8:00am to 4:30pm Monday through Friday!{" "}
-                </h5>
-                <h5 className=" p-3 text-sm sm:text-l text-primary">
-                  <p className="text-l sm:text-xl font-semibold">Address :</p>
-                  Soil Testing Laboratory Room 135 Crops Research Building 1902
-                  Dudley Ave St Paul, MN 55108
-                </h5>
-                <p className="test-l sm:text-xl text-primary font-semibold p-3">
-                  Email :{" "}
-                  <a
-                    href="mailto:email@example.com?subject='Hello from Abstract!'&body='Just popped in to say hello'"
-                    className="font-bold text-blue-500"
-                  >
-                    soiltest@ind.in
-                  </a>
-                </p>
-                <p className="text-l sm:text-xl text-primary font-semibold p-3">
-                  Phone : 612 625-3101
-                </p>
+                {addressInfo.map((feature, index) => (
+                  <AddressCard key={feature.id} {...feature} index={index} />
+                ))}
               </div>
             </div>
           </section>
@@ -98,7 +102,7 @@ function AboutUs() {
                   We use a variety of instruments to analyze soil samples
                   including:
                 </p>
-                <ul className="text-secondary text-sm sm:text-xl">
+                <ul className="text-secondary text-sm sm:text-xl list-disc">
                   <li className="p-2">Atomic absorption spectrophotometers,</li>
                   <li className="p-2">
                     Inductively Coupled Plasma Spectrometers (ICPs),
@@ -113,7 +117,7 @@ function AboutUs() {
                   <p className={`${styles.paragraph} text-left text-red-500`}>
                     Sample Preparation
                   </p>
-                  <ul className="text-secondary text-sm sm:text-xl">
+                  <ul className="text-secondary text-sm sm:text-xl list-disc">
                     <li className="p-2">
                       At the laboratory, each sample is assigned an
                       identification number, transferred to a paper bag, and
@@ -141,7 +145,7 @@ function AboutUs() {
                     Routine Soil Tests (regular tests) & Florist/Greenhouse
                     Tests
                   </p>
-                  <ul className="text-secondary text-sm sm:text-xl">
+                  <ul className="text-secondary text-sm sm:text-xl list-disc">
                     <li className="p-2">Estimated texture category</li>
                     <li className="p-2">Soil pH (1:1 suspension)</li>
                     <li className="p-2">
@@ -165,7 +169,7 @@ function AboutUs() {
                   <p className={`${styles.paragraph} text-left text-red-500`}>
                     Soil Tests Made Upon Request
                   </p>
-                  <ul className="text-secondary text-sm sm:text-xl">
+                  <ul className="text-secondary text-sm sm:text-xl list-disc">
                     <li className="p-2">
                       Soluble salts (electrical conductance, 1:1 soil
                       suspension, saturation extract)

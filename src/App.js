@@ -12,6 +12,10 @@ import { auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import SoilTestMainPage from "./SoilTestContainer/SoilTestMainPage";
 import AboutUs from "./SoilTestContainer/AboutUs";
+import LawnGarden from "./SoilTestContainer/TestingServices/LawnGarden";
+import HowToTakeSoil from "./SoilTestContainer/TestingServices/HowToTakeSoil";
+import SoilTestReportDisplay from "./SoilTestContainer/SoilTestReportDisplay";
+import ContactUs from "./SoilTestContainer/ContactUs";
 
 const App = () => {
   const [user, setUser] = useState();
@@ -36,6 +40,10 @@ const App = () => {
           <Route path="/Login" Component={Login} />
           <Route path="/SoilTestMainPage" Component={SoilTestMainPage} />
           <Route path="/AboutUs" Component={AboutUs} />
+          <Route path="/LawnGarden" Component={LawnGarden} />
+          <Route path="/TakeSoilSample" Component={HowToTakeSoil} />
+          <Route path="/ReportDisplay" Component={SoilTestReportDisplay} />
+          <Route path="/SoilContactUs" Component={ContactUs} />
         </Routes>
       </BrowserRouter>
     </div>

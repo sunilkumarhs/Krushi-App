@@ -13,6 +13,10 @@ import {
   send,
   shield,
   star,
+  clock,
+  location,
+  envelope,
+  phone,
 } from "../assets";
 
 export const navLinks = [
@@ -55,6 +59,33 @@ export const features = [
     title: "Connectivity",
     content:
       "Our application promote connectivity and collaboration among farmers, agricultural experts, and industry stakeholders.",
+  },
+];
+export const addressInfo = [
+  {
+    id: "info1",
+    icon: clock,
+    title: "Office Hours :",
+    content: "8:00am to 4:30pm Monday through Friday!",
+  },
+  {
+    id: "info2",
+    icon: location,
+    title: "Address :",
+    content:
+      "Soil Testing Laboratory Room 135 Crops Research Building 123 whitefield KR circle, KA 563012",
+  },
+  {
+    id: "info3",
+    icon: envelope,
+    title: "Mail-Id :",
+    content: "soiltest@ind.in",
+  },
+  {
+    id: "info4",
+    icon: phone,
+    title: "Contact-Number :",
+    content: "612 625-3101",
   },
 ];
 

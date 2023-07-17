@@ -7,12 +7,8 @@ import { Footer } from "../components";
 
 function SoilTestMainPage() {
   return (
-    <div className="w-full overflow-hidden">
-      <div className={`bg-secondary ${styles.paddingX} ${styles.flexCenter}`}>
-        <div className={`${styles.boxWidth}`}>
-          <SoilTestNavbar />
-        </div>
-      </div>
+    <div className="w-full">
+      <SoilTestNavbar />
       <div className={`bg-primary ${styles.paddingX} ${styles.flexCenter}`}>
         <div className={`${styles.boxWidth}`}>
           <Header />
@@ -33,8 +29,9 @@ function SoilTestMainPage() {
                   className="w-[32px] h-[32px]"
                 />
                 <p className={`${styles.paragraph} ml-2 text-sm sm:text-xl`}>
-                  <span className="text-white">Farmer </span>is main piller{" "}
-                  <span className="text-white">of the </span> Nation
+                  The soil{" "}
+                  <span className="text-white">is the nurturing embrace </span>
+                  of the <span className="text-white">Earth</span>
                 </p>
               </div>
               <div className="flex flex-row justify-between items-center w-full ">
@@ -50,9 +47,9 @@ function SoilTestMainPage() {
               <p
                 className={`${styles.paragraph} max-w-[470px] mt-5 text-sm sm:text-xl`}
               >
-                This innovative application harnesses the power of digital
-                solutions and data analytics to enhance productivity,
-                efficiency, and sustainability in the agricultural sector.
+                From the depths of the soil's embrace, life whispers its
+                secrets, revealing the story of our roots and nurturing the
+                growth of a sustainable future.
               </p>
             </div>
           </section>

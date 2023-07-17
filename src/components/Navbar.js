@@ -51,7 +51,7 @@ const Navbar = () => {
     }
   };
   return (
-    <nav className="w-full flex  justify-between items-center navbar">
+    <nav className="w-full flex  justify-between items-center bg-primary navbar px-5">
       <Link to="/">
         <img
           src={logo}
@@ -111,7 +111,7 @@ const Navbar = () => {
             {auth.currentUser ? (
               <button type="button" onClick={toBussiness}>
                 <li
-                  className={`font-poppins font-normal cursor-pointer text-[16px] mb-0 text-white px-4 py-3 nav-link`}
+                  className={`font-poppins font-normal cursor-pointer text-[16px] mb-0 text-white px-2 py-3 nav-link`}
                 >
                   Trade
                 </li>
@@ -123,7 +123,7 @@ const Navbar = () => {
             {navLinks.map((nav) => (
               <a href={`#${nav.id}`} key={nav.id}>
                 <li
-                  className={`font-poppins font-normal cursor-pointer text-[16px] mb-0 text-white px-4 py-3 nav-link`}
+                  className={`font-poppins font-normal cursor-pointer text-[16px] mb-0 text-white px-2 py-3 nav-link`}
                 >
                   {nav.title}
                 </li>
@@ -139,7 +139,7 @@ const Navbar = () => {
             {auth.currentUser ? (
               <button type="button" onClick={logOut}>
                 <li
-                  className={`font-poppins font-normal cursor-pointer text-[16px] text-white px-4 py-3 nav-link`}
+                  className={`font-poppins font-normal cursor-pointer text-[16px] text-white px-2 py-3 nav-link`}
                 >
                   SignOut
                 </li>
@@ -147,7 +147,7 @@ const Navbar = () => {
             ) : (
               <Link to="/Login">
                 <li
-                  className={`font-poppins font-normal cursor-pointer text-[16px] text-white px-4 py-3 nav-link`}
+                  className={`font-poppins font-normal cursor-pointer text-[16px] text-white px-2 py-3 nav-link`}
                 >
                   SignIn
                 </li>

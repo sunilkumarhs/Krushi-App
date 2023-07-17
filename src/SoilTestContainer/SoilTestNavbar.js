@@ -15,7 +15,7 @@ const SoilTestNavbar = () => {
   };
 
   return (
-    <nav className="w-full flex justify-between items-center navbar">
+    <nav className="w-full flex justify-between items-center bg-secondary navbar px-5">
       <Link to="/">
         <img
           src={logo}
@@ -38,21 +38,21 @@ const SoilTestNavbar = () => {
             About-Us
           </li>
         </Link>
-        <Link to="/SoilTestingMainPage">
+        <Link to="/LawnGarden">
           <li
             className={`font-poppins font-semibold cursor-pointer text-xl  mr-3 py-3 px-5 text-primary nav-links nav-link`}
           >
             Services
           </li>
         </Link>
-        <Link to="/SoilTestMainPage">
+        <Link to="/ReportDisplay">
           <li
             className={`font-poppins font-semibold cursor-pointer text-xl  mr-3 py-3 px-5 text-primary nav-links nav-link`}
           >
             Report
           </li>
         </Link>
-        <Link to="/SoilTestingMainPage">
+        <Link to="/SoilContactUs">
           <li
             className={`font-poppins font-semibold cursor-pointer text-xl  mr-3 py-3 px-5 text-primary nav-links nav-link`}
           >
@@ -82,35 +82,35 @@ const SoilTestNavbar = () => {
           <ul className="list-none flex flex-col justify-end items-center flex-1">
             <Link to="/SoilTestMainPage">
               <li
-                className={`font-poppins font-normal cursor-pointer text-[16px] mb-0 text-secondary px-4 py-3 nav-link`}
+                className={`font-poppins font-normal cursor-pointer text-[16px] mb-0 text-secondary px-2 py-2  nav-link`}
               >
                 Home
               </li>
             </Link>
             <Link to="/AboutUs">
               <li
-                className={`font-poppins font-normal cursor-pointer text-[16px] mb-0 text-secondary px-4 py-3 nav-link`}
+                className={`font-poppins font-normal cursor-pointer text-[16px] mb-0 text-secondary px-2 py-2  nav-link`}
               >
                 About-Us
               </li>
             </Link>
-            <Link>
+            <Link to="/LawnGarden">
               <li
-                className={`font-poppins font-normal cursor-pointer text-[16px] mb-0 text-secondary px-4 py-3 nav-link`}
+                className={`font-poppins font-normal cursor-pointer text-[16px] mb-0 text-secondary px-2 py-2  nav-link`}
               >
                 Services
               </li>
             </Link>
-            <Link>
+            <Link to="/ReportDisplay">
               <li
-                className={`font-poppins font-normal cursor-pointer text-[16px] mb-0 text-secondary px-4 py-3 nav-link`}
+                className={`font-poppins font-normal cursor-pointer text-[16px] mb-0 text-secondary px-2 py-2  nav-link`}
               >
                 Report
               </li>
             </Link>
-            <Link>
+            <Link to="/SoilContactUs">
               <li
-                className={`font-poppins font-normal cursor-pointer text-[16px] mb-0 text-secondary px-4 py-3 nav-link`}
+                className={`font-poppins font-normal cursor-pointer text-[16px] mb-0 text-secondary px-2 py-2  nav-link`}
               >
                 contact-Us
               </li>
@@ -118,7 +118,7 @@ const SoilTestNavbar = () => {
             {auth.currentUser ? (
               <button type="button" onClick={logOut}>
                 <li
-                  className={`font-poppins font-normal cursor-pointer text-[16px] text-secondary px-4 py-3 nav-link`}
+                  className={`font-poppins font-normal cursor-pointer text-[16px] text-secondary px-2 py-2  nav-link`}
                 >
                   SignOut
                 </li>
@@ -126,7 +126,7 @@ const SoilTestNavbar = () => {
             ) : (
               <Link to="/Login">
                 <li
-                  className={`font-poppins font-normal cursor-pointer text-[16px] text-secondary px-4 py-3 nav-link`}
+                  className={`font-poppins font-normal cursor-pointer text-[16px] text-secondary px-2 py-2 nav-link`}
                 >
                   SignIn
                 </li>
