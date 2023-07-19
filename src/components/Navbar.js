@@ -51,7 +51,7 @@ const Navbar = () => {
     }
   };
   return (
-    <nav className="w-full flex  justify-between items-center bg-primary navbar px-5">
+    <nav className="w-full flex  justify-between items-center bg-primary navbar px-5 sm:px-8">
       <Link to="/">
         <img
           src={logo}
@@ -71,6 +71,24 @@ const Navbar = () => {
         ) : (
           <li></li>
         )}
+        {farmer[0]?.UserType === "farmer" ? (
+          <>
+            <Link to="/FertilizersDisplay">
+              <li
+                className={`font-poppins font-normal cursor-pointer text-[16px] mr-3 py-3 px-5 text-white nav-links nav-link`}
+              >
+                Fertilizers
+              </li>
+            </Link>
+            <Link to="/AgriProductList">
+              <li
+                className={`font-poppins font-normal cursor-pointer text-[16px] mr-3 py-3 px-5 text-white nav-links nav-link`}
+              >
+                Price_List
+              </li>
+            </Link>
+          </>
+        ) : null}
         {navLinks.map((nav) => (
           <a href={`#${nav.id}`} key={nav.id}>
             <li
@@ -119,7 +137,24 @@ const Navbar = () => {
             ) : (
               <li></li>
             )}
-
+            {farmer[0]?.UserType === "farmer" ? (
+              <>
+                <Link to="/AgriProductList">
+                  <li
+                    className={`font-poppins font-normal cursor-pointer text-[16px] text-white px-2 py-3 nav-link`}
+                  >
+                    Price_List
+                  </li>
+                </Link>
+                <Link to="/FertilizersDisplay">
+                  <li
+                    className={`font-poppins font-normal cursor-pointer text-[16px] text-white px-2 py-3 nav-link`}
+                  >
+                    Fertilizers
+                  </li>
+                </Link>
+              </>
+            ) : null}
             {navLinks.map((nav) => (
               <a href={`#${nav.id}`} key={nav.id}>
                 <li

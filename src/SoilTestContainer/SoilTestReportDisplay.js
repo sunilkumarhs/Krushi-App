@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Footer } from "../components";
 import Header from "./Header";
 import SoilTestNavbar from "./SoilTestNavbar";
@@ -8,7 +8,6 @@ import { storage } from "../firebase";
 import { getDownloadURL, listAll, ref } from "firebase/storage";
 
 const SoilTestReportDisplay = () => {
-  const [reportUrl, setReportUrl] = useState([]);
   const getPhotoUrl = async (appId) => {
     const proRef = ref(storage, "soilReports/");
     listAll(proRef)

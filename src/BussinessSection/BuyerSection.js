@@ -14,7 +14,6 @@ const BuyerSection = () => {
   const [farmers, setFarmers] = useState([]);
   const [farmer, setFarmer] = useState([]);
   const [seller, setSeller] = useState("");
-  // const user = auth?.currentUser?.email;
   const farmerCollectionRef = collection(db, "farmers");
   const productCollectionRef = collection(db, "agricultureProducts");
 
@@ -42,7 +41,13 @@ const BuyerSection = () => {
           Object.values(item)
             .join("")
             .toLowerCase()
-            .includes(type?.toLowerCase() && name?.toLowerCase())
+            .includes(type?.toLowerCase())
+        )
+        .filter((item) =>
+          Object.values(item)
+            .join("")
+            .toLowerCase()
+            .includes(name?.toLowerCase())
         )
         .filter((item) => Object.values(item).join("").includes(grade))
         .filter((item) => Object.values(item).join("").includes(qty))

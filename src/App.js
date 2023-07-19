@@ -16,6 +16,8 @@ import LawnGarden from "./SoilTestContainer/TestingServices/LawnGarden";
 import HowToTakeSoil from "./SoilTestContainer/TestingServices/HowToTakeSoil";
 import SoilTestReportDisplay from "./SoilTestContainer/SoilTestReportDisplay";
 import ContactUs from "./SoilTestContainer/ContactUs";
+import AgriProductsList from "./AgricultureProductsList/AgriProductsList";
+import FertilizersDisplay from "./Fertilizers/FertilizersDisplay";
 
 const App = () => {
   const [user, setUser] = useState();
@@ -33,6 +35,8 @@ const App = () => {
             <Route path="/UpdateBuy" Component={UpdateBuy} />
             <Route path="/FarmerSection" Component={FarmerSection} />
             <Route path="/BuyerSection" Component={BuyerSection} />
+            <Route path="/AgriProductList" Component={AgriProductsList} />
+            <Route path="/FertilizersDisplay" Component={FertilizersDisplay} />
           </Routes>
         ) : null}
         <Routes>

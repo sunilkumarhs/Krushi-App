@@ -52,7 +52,7 @@ const BNavBarT = () => {
 
   return (
     <>
-      <nav className="w-full flex  justify-between items-center navbar">
+      <nav className="w-full flex  justify-between items-center ">
         <Link to="/">
           <img
             src={logo}

@@ -73,7 +73,7 @@ const BNavBar = () => {
 
   return (
     <>
-      <nav className="w-full flex  justify-between items-center navbar">
+      <nav className="w-full flex  justify-between items-center ">
         <Link to="/">
           <img
             src={logo}
@@ -82,7 +82,7 @@ const BNavBar = () => {
           />
         </Link>
         <ul className="list-none sm:flex hidden justify-end items-center flex-1">
-          <Link to="/">
+          <Link to="/FarmerSection">
             <li
               className={`font-poppins font-normal cursor-pointer text-[16px] mr-3 py-3 px-5 text-white nav-links nav-link`}
             >
@@ -96,6 +96,20 @@ const BNavBar = () => {
               Profile
             </button>
           </li>
+          <Link to="/AgriProductList">
+            <li
+              className={`font-poppins font-normal cursor-pointer text-[16px] mr-3 py-3 px-5 text-white nav-links nav-link`}
+            >
+              Price_List
+            </li>
+          </Link>
+          <Link to="/FertilizersDisplay">
+            <li
+              className={`font-poppins font-normal cursor-pointer text-[16px] mr-3 py-3 px-5 text-white nav-links nav-link`}
+            >
+              Fertilizers
+            </li>
+          </Link>
           <li className="ml-2">
             <Buttons buttonStyle="btn--outline">SIGN OUT</Buttons>
           </li>
@@ -113,7 +127,7 @@ const BNavBar = () => {
             } p-6 bg-primary absolute top-10 right-0 mx-4 my-2 min-w-[140px] rounded-xl sidebar `}
           >
             <ul className="list-none flex flex-col justify-end items-center flex-1">
-              <Link to="/">
+              <Link to="/FarmerSection">
                 <li
                   className={`font-poppins font-normal cursor-pointer text-[16px] mb-0 text-white px-4 py-3 nav-link`}
                 >
@@ -127,6 +141,20 @@ const BNavBar = () => {
                   Profile
                 </li>
               </button>
+              <Link to="/AgriProductList">
+                <li
+                  className={`font-poppins font-normal cursor-pointer text-[16px] py-3 px-4 text-white  nav-link`}
+                >
+                  Price_List
+                </li>
+              </Link>
+              <Link to="/FertilizersDisplay">
+                <li
+                  className={`font-poppins font-normal cursor-pointer text-[16px] py-3 px-4 text-white  nav-link`}
+                >
+                  Fertilizers
+                </li>
+              </Link>
               <li
                 className={`font-poppins font-normal cursor-pointer text-[16px] text-white px-4 py-3 nav-link`}
               >

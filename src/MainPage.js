@@ -15,7 +15,7 @@ import {
 import bVedio from "./videos/video-2.mp4";
 import { auth } from "./firebase";
 const MainPage = () => (
-  <div className="w-full">
+  <div className="w-full ">
     <Navbar />
     <div className={`${styles.flexStart} mainContainer`}>
       <video src={bVedio} autoPlay loop muted />
@@ -42,7 +42,8 @@ const MainPage = () => (
     </div>
     <div className={`bg-primary ${styles.paddingX} ${styles.flexStart}`}>
       <div className={`${styles.boxWidth}`}>
-        <Stats /> <Business /> <Billing /> <CardDeal /> <Testimonials />
+        <Stats /> <Business /> <Billing /> <CardDeal />
+        <Testimonials />
         <Clients />
         {auth.currentUser ? <p></p> : <CTA />} <Footer />
       </div>
