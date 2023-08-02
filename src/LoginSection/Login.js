@@ -7,6 +7,7 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { auth } from "../firebase";
 import { getDocs, collection } from "firebase/firestore";
@@ -97,6 +98,22 @@ const Login = () => {
       }
     },
   });
+
+  const resetPassword = () => {
+    if (lEmail.length != 0) {
+      sendPasswordResetEmail(auth, lEmail)
+        .then(() => {
+          alert("Password reset mail sent sucessfully");
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          alert(errorCode, errorMessage);
+        });
+    } else {
+      alert("Please provide the valid email address !");
+    }
+  };
 
   const toLogin = async () => {
     if (category.length !== 0) {
@@ -226,9 +243,12 @@ const Login = () => {
                 <input type="checkbox" id="check" className="w-4 h-4 mr-2" />
                 <p className="text-sm text-white">Remember me for 30 days</p>
               </div>
-              <p className="font-medium whitespace-nowrap cursor-pointer underline underline-offset-2 text-white text-sm sm:text-l">
+              <button
+                onClick={resetPassword}
+                className="font-medium whitespace-nowrap cursor-pointer underline underline-offset-2 text-white text-sm sm:text-l"
+              >
                 Forgot Password ?
-              </p>
+              </button>
             </div>
             <div className="w-full flex flex-col my-4">
               <button
